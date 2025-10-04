@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Confirmação de Segurança</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='pergunta_seguranca.css') }}">
+</head>
+<body>
+<div class="container">
+    <h2>Confirmação de Segurança</h2>
+    <p><strong>Pergunta:</strong> {{ usuario.pergunta_seguranca }}</p>
+    <form method="POST" action="{{ url_for('validar_resposta', usuario_id=usuario.id) }}">
+        <label for="resposta">Resposta:</label>
+        <input type="text" name="resposta" id="resposta" required>
+        <button type="submit">Validar</button>
+    </form>
+</div>
+</body>
+</html>

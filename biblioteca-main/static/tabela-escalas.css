@@ -1,0 +1,108 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    text-align: center; /* Garante que todo o conteúdo fique centralizado */
+}
+
+
+h1 {
+    font-size: 36px;
+    text-transform: uppercase;
+}
+
+/* Estilização da tabela */
+table {
+    width: 90%; /* Ajusta melhor à página */
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Centraliza o conteúdo da tabela */
+table th, table td {
+    padding: 12px;
+    text-align: center; /* Agora tudo estará alinhado ao centro */
+    border-bottom: 1px solid #ddd;
+}
+
+/* Cabeçalho da tabela refinado */
+table th {
+    background-color: #007bff;
+    color: #ffffff;
+    font-size: 18px;
+}
+
+/* Linhas alternadas para melhor legibilidade */
+table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+table tr:hover {
+    background-color: #e0f2ff;
+}
+
+/* Ajuste visual para o conteúdo */
+table td {
+    font-size: 16px;
+    font-weight: 500;
+    color: #15069b;
+}
+
+table tr::before {
+    content: "🎵";
+    padding-right: 8px;
+    color: #007bff;
+    font-size: 18px;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 90%;
+  width: 500px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 1000;
+}
+
+.modal.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  .modal {
+    width: 95%;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .modal-close {
+    font-size: 2rem;
+  }
+}
+

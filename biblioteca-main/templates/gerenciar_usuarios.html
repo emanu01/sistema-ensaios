@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Usuários</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='gerenciar_usuarios.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+</head>
+
+<body>
+    <h1>Gerenciar Usuários</h1>
+
+    <!-- 🔹 Botão de Logout -->
+    <form method="POST" action="{{ url_for('logout') }}">
+        <button type="submit" class="btn btn-danger">
+            <i class="fa-solid fa-right-from-bracket"></i> Sair
+        </button>
+    </form>
+
+    <!-- 🔹 Botão de Voltar para Músicas -->
+    <a href="{{ url_for('musicas') }}" class="botao-voltar">🔙 Voltar para Músicas</a>
+
+    {% if usuarios %}
+    <table>
+        <tr>
+            <th>Nome</th>
+            <th>Usuário</th>
+            <th>Nível de Acesso</th>
+            <th>Ação</th>
+        </tr>
+        {% for usuario in usuarios %}
+        <tr>
+            <td>{{ usuario.nome }}</td>
+            <td>{{ usuario.username }}</td>
+            <td>{{ usuario.role }}</td>
+            <td>
+                {% if usuario.role == "admin" and usuario.id != current_user.id %}
+                <form method="POST" action="{{ url_for('rebaixar_usuario', user_id=usuario.id) }}">
+                    <button type="submit" class="btn-rebaixar">
+                        <i class="fa-solid fa-user-minus"></i> Rebaixar para Membro
+                    </button>
+                </form>
+                {% endif %}
+                
+                {% if usuario.role != "admin" %}
+                <form method="POST" action="{{ url_for('promover_usuario', user_id=usuario.id) }}">
+                    <button type="submit" class="btn-promover">
+                        <i class="fa-solid fa-user-plus"></i> Tornar Admin
+                    </button>
+                </form> 
+
+               <form action="{{ url_for('alternar_cantor', user_id=usuario.id) }}" method="POST">
+                    {% if usuario.role == "cantor" %}
+                        <button type="submit" class="botao-revogar-cantor">
+                        ❌ Revogar Cantor
+                         </button>
+                    {% else %}
+                        <button type="submit" class="botao-promover-cantor">
+                        🎤 Tornar Cantor
+                         </button>
+                    {% endif %}
+                </form>
+
+                {% endif %}
+
+                <form method="POST" action="{{ url_for('remover_usuario', user_id=usuario.id) }}">
+                    <button type="submit" class="btn-excluir" onclick="return confirm('Tem certeza que deseja remover este usuário?');">
+                        <i class="fa-solid fa-trash"></i> Remover
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>Nenhum usuário cadastrado.</p>
+    {% endif %}
+
+
+
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    
+    <header>
+        <i class="fas fa-user-circle login-icon"></i> 
+    </header>
+    
+    <main class="form-container">
+        <form method="POST" action="{{ url_for('login') }}">
+            <div class="input-container">
+                <i class="fas fa-user"></i> 
+                <input type="text" id="usuario" name="usuario" placeholder="Usuário" required>
+            </div>
+        
+            <div class="input-container">
+                <i class="fas fa-lock"></i> 
+                <input type="password" id="senha" name="senha" placeholder="Senha" required>
+            </div>
+            
+            <button type="submit" class="botao-estilizado">
+                <i class="fas fa-sign-in-alt"></i> Entrar
+            </button>
+        </form>
+        
+        <div class="recuperar-senha">
+            <a href="{{ url_for('recuperar_senha') }}" class="link-recuperar">
+                <i class="fas fa-key"></i> Esqueci minha senha
+            </a>
+        </div>
+
+
+        <!-- 🔹 Exibir mensagens corretamente -->
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                <div class="mensagem-alerta">
+                    {% for category, message in messages %}
+                        {% if category in ["danger", "info"] %}  <!-- 🔹 Exibe mensagens de erro e saída corretamente -->
+                            <p class="{{ category }}">{{ message }}</p>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        
+        {% if current_user.is_authenticated %}
+            <p>🎶 Olá, {{ current_user.username }}! Seja bem-vindo(a).</p>
+
+            <!-- Botão de Logout -->
+            <a href="{{ url_for('logout') }}" class="botao-sair">
+                <i class="fas fa-sign-out-alt"></i> Sair
+            </a>
+
+        {% else %}
+            <!-- Redireciona para a página inicial caso não esteja logado -->
+            <button onclick="window.location.href='/'" class="botao-sair">
+                <i class="fas fa-sign-out-alt"></i> Sair
+            </button>
+        {% endif %}
+
+
+    </main>
+
+    <!--<footer>
+        <p>© 2025 Repertório Online - Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- 🔹 Correção para evitar estado incorreto ao pressionar "Voltar" -->
+<script>
+    window.onpageshow = function(event) {
+        if (event.persisted || performance.navigation.type === 2) {
+                sessionStorage.removeItem('login_sucesso');  // 🔹 Remove a variável de login
+                window.location.reload();  // 🔹 Força um refresh ao voltar para evitar mensagens erradas
+        }
+    };
+</script>
+
+</body>
+</html>

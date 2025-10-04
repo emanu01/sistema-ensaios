@@ -1,0 +1,227 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #0b0b0c; /* 🔹 Azul escuro */
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+.form-container {
+    background-color: rgba(247, 245, 245, 0.904);
+    padding: 50px;
+    width: 120%;
+    max-width: 450px;
+    margin: auto;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+label {
+    font-size: 1.2rem;
+    color: rgb(255, 255, 255);
+    text-align: left;
+    width: 100%;
+}
+
+input {
+    width: 80%; /* 🔹 Reduz a largura */
+    padding: 8px; /* 🔹 Menos altura interna */
+    margin-bottom: px; /* 🔹 Adiciona espaçamento abaixo */
+    border: none;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: rgb(7, 7, 7);
+}
+
+.botao-estilizado {
+    width: 80%;
+    padding: 12px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.3s;
+    background-color: #ff7300; /* 🔹 Azul vibrante */
+    color: rgb(10, 10, 10);
+    border-radius: 5px;
+    border: none;
+}
+
+.botao-estilizado:hover {
+    transform: scale(1.05);
+    background-color: #eeeff0;
+}
+
+.botao-sair {
+    margin-top: 15px;
+    padding: 12px;
+    font-size: 1rem;
+    background-color: #0a0a0a;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    transition: 0.3s;
+}
+
+.botao-sair:hover {
+    background-color: #8B0000;
+    transform: scale(1.05);
+}
+
+.login-icon {
+  font-size: 7rem;              /* 🔹 Tamanho grande do ícone */
+  color: #070707;               /* 🔹 Cor do ícone (quase preto) */
+  background-color: #faf9f9ef;       /* 🔹 Fundo branco atrás do ícone */
+  display: inline-block;        /* 🔹 Permite aplicar padding/margens corretamente */
+  text-align: center;
+  margin-bottom: 10px;
+
+  padding: 20px;                /* 🔹 Espaço interno para dar “respiro” ao fundo */
+  border-radius: 50%;          /* 🔹 Deixa o fundo circular (opcional) */
+  box-shadow: 0 0 15px rgba(0,0,0,0.2); /* 🔹 Sombra leve para destaque */
+}
+
+.input-container {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* 🔹 Centraliza os itens na horizontal */
+    background-color: rgba(255, 255, 255, 0.945);
+    padding: 1px;
+    border-radius: 8px;
+    width: 80%;
+    margin: auto; /* 🔹 Centraliza o contêiner */
+}
+
+
+.input-container i {
+    font-size: 1rem; /* 🔹 Aumenta o ícone */
+    color: #080808; /* 🔹 Mantém contraste */
+    margin-right: 10px; /* 🔹 Espaço entre o ícone e input */
+}
+
+
+.input-container input {
+    width: 80%;
+    text-align: left; /* 🔹 Centraliza o texto dentro do campo */
+    border: none;
+    background: transparent;
+    color: rgb(20, 20, 20);
+    font-size: 1rem;
+}
+
+.input-container {
+    margin-bottom: 10px; /* 🔹 Maior espaço abaixo dos campos */
+}
+
+.botao-estilizado {
+    margin-top: 1%; /* 🔹 Afastando mais do último input */
+}
+
+.mensagem-alerta {
+    position: fixed; /* 🔹 Mantém o balão fixo na tela */
+    top: 20px; /* 🔹 Define a posição vertical */
+    right: 20px; /* 🔹 Define a posição horizontal */
+    background-color: rgba(75, 72, 72, 0.9); /* 🔹 Vermelho escuro transparente */
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    font-size: 1rem;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* 🔹 Efeito de animação ao aparecer */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 🔹 Botão para fechar o balão */
+.mensagem-alerta button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    position: absolute;
+    top: 5px;
+    right: 10px;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url("imagens/FUNDO1.jpg"); /* ajuste o caminho */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  filter: blur(8px);
+  z-index: -1;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 90%;
+  width: 500px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 1000;
+}
+
+.modal.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  .modal {
+    width: 95%;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .modal-close {
+    font-size: 2rem;
+  }
+}
+
+.recuperar-senha {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.link-recuperar {
+    color: #007BFF;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+.link-recuperar:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}
+

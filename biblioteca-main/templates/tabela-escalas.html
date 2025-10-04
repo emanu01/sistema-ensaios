@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escala de Componentes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='tabela-escalas.css') }}">
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>Componente</th>
+                <th>Dia</th>
+                <th>Horário</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for escala in escalas %}
+            <tr>
+                <td>{{ escala.componente }}</td>
+                <td>{{ escala.dia }}</td>
+                <td>{{ escala.horario }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>

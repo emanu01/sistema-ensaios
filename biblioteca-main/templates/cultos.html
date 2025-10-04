@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>📅 Cultos Agendados</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='cultos.css') }}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+</head>
+<body>
+  <div class="centro-total">
+  <h1>📖 Cultos Agendados</h1>
+  </div>
+
+  <a href="{{ url_for('musicas') }}" class="voltar"><i class="fa fa-arrow-left"></i> Voltar para músicas</a>
+  
+
+  {% if lista_cultos %}
+    {% set ultimo_culto = lista_cultos[0] %}
+    {% if ultimo_culto.musicas or ultimo_culto.escala %}
+      <div class="culto-fixado">
+        <h2>📌 Último Culto Agendado – {{ ultimo_culto.culto.data.strftime('%d/%m/%Y') }}</h2>
+        {% if ultimo_culto.musicas %}
+          <p><strong>🎵 Músicas:</strong></p>
+          <ul>
+            {% for musica in ultimo_culto.musicas %}
+              <li>{{ musica.titulo }} — {{ musica.tom }} <small>(Autor: {{ musica.autor }})</small></li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+        {% if ultimo_culto.escala %}
+          <p><strong>👥 Escala:</strong></p>
+          <ul>
+            {% for user in ultimo_culto.escala %}
+              <li>{{ user.username }} ({{ user.role }})</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    {% endif %}
+  {% endif %}
+
+  <button id="btnMostrarForm" class="botao-agendar">➕ Agendar Novo Culto</button>
+
+  <form id="formNovoCulto" style="display:none;" class="form-culto">
+    <h2>📅 Novo Culto</h2>
+
+    <label for="dataCulto">Data:</label>
+    <input type="date" id="dataCulto" name="data_culto" required>
+
+    <label>🎵 Músicas:</label>
+    <div class="check-group">
+      {% for musica in musicas %}
+        <label>
+          <input type="checkbox" name="musicas" value="{{ musica.musica_id }}">
+          {{ musica.titulo }} <small>(Autor: {{ musica.autor }})</small>
+        </label>
+      {% endfor %}
+    </div>
+
+    <label>👥 Escala de Músicos:</label>
+    <div class="check-group">
+      {% for usuario in usuarios %}
+        <label><input type="checkbox" name="escala" value="{{ usuario.id }}"> {{ usuario.username }}</label>
+      {% endfor %}
+    </div>
+
+    <div class="resumo-culto">
+      <div>
+        <h4>🎵 Músicas Selecionadas:</h4>
+        <ul id="resumoMusicas"></ul>
+      </div>
+      <div>
+        <h4>👥 Escala Selecionada:</h4>
+        <ul id="resumoEscala"></ul>
+      </div>
+    </div>
+
+    <button type="submit">✅ Salvar Culto</button>
+  </form>
+
+  <div id="cultoSalvoConfirmacao" style="display: none;" class="culto-bloco"></div>
+
+  {% for item in lista_cultos %}
+    {% if item.musicas or item.escala %}
+      <div class="culto-bloco">
+        <h2>🗓️ {{ item.culto.data.strftime('%d/%m/%Y') }}</h2>
+        {% if item.musicas %}
+          <h4>🎵 Músicas:</h4>
+          <ul>
+            {% for musica in item.musicas %}
+              <li>
+                {{ musica.titulo }} — {{ musica.tom }} <small>(Autor: {{ musica.autor }})</small>
+                <form action="{{ url_for('remover_musica_culto') }}" method="POST" style="display:inline;">
+                  <input type="hidden" name="culto_id" value="{{ item.culto.id }}">
+                  <input type="hidden" name="musica_id" value="{{ musica.musica_id }}">
+                  <button type="submit" class="btn-excluir-escala" title="Remover música do culto">🗑️</button>
+                </form>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+        {% if item.escala %}
+          <h4>👥 Escala de Músicos:</h4>
+          <ul>
+        {% for user in item.escala %}
+          <li>
+            {{ user.username }} ({{ user.role }})
+            <form action="{{ url_for('remover_escala_culto') }}" method="POST" style="display:inline;">
+              <input type="hidden" name="culto_id" value="{{ item.culto.id }}">
+              <input type="hidden" name="usuario_id" value="{{ user.id }}">
+              <button type="submit" class="btn-excluir-escala" title="Remover da escala">🗑️</button>
+            </form>
+          </li>
+        {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    {% endif %}
+  {% endfor %}
+
+<script>
+  const btnMostrarForm = document.getElementById("btnMostrarForm");
+  const formCulto = document.getElementById("formNovoCulto");
+  const resumoMusicas = document.getElementById("resumoMusicas");
+  const resumoEscala = document.getElementById("resumoEscala");
+  const divConfirmacao = document.getElementById("cultoSalvoConfirmacao");
+
+  function getCheckedValues(name) {
+    return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`));
+  }
+
+  function atualizarResumo(name, ulElement) {
+    const selecionados = getCheckedValues(name);
+    ulElement.innerHTML = "";
+    selecionados.forEach(item => {
+      const li = document.createElement("li");
+      li.textContent = item.parentElement.textContent.trim();
+      ulElement.appendChild(li);
+    });
+  }
+
+  if (btnMostrarForm && formCulto) {
+    btnMostrarForm.addEventListener("click", () => {
+      formCulto.style.display = formCulto.style.display === "none" ? "block" : "none";
+    });
+
+    document.querySelectorAll('input[name="musicas"]').forEach(cb =>
+      cb.addEventListener("change", () => atualizarResumo("musicas", resumoMusicas))
+    );
+
+    document.querySelectorAll('input[name="escala"]').forEach(cb =>
+      cb.addEventListener("change", () => atualizarResumo("escala", resumoEscala))
+    );
+
+    formCulto.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const data_culto = document.getElementById("dataCulto").value;
+      const musicas = getCheckedValues("musicas").map(c => c.value);
+      const escala = getCheckedValues("escala").map(c => c.value);
+
+      if (!data_culto || musicas.length === 0 || escala.length === 0) {
+        alert("⚠️ Preencha todos os campos antes de salvar.");
+        return;
+      }
+
+      fetch("/salvar_culto", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ data_culto, musicas, escala })
+      })
+      .then(res => {
+        if (!res.ok) throw new Error("Erro ao salvar");
+        return res.json();
+      })
+      .then(dados => {
+        alert("✅ Culto criado com sucesso!");
+
+        divConfirmacao.innerHTML = `
+          <h2>📌 Culto Agendado – ${dados.data}</h2>
+          <h4>🎵 Músicas:</h4>
+          <ul>${dados.musicas.map(m => `<li>${m}</li>`).join("")}</ul>
+          <h4>👥 Escala:</h4>
+          <ul>${dados.escala.map(e => `<li>${e}</li>`).join("")}</ul>
+        `;
+        divConfirmacao.style.display = "block";
+
+        formCulto.reset();
+        resumoMusicas.innerHTML = "";
+        resumoEscala.innerHTML = "";
+
+        // 🔁 Atualiza a lista de cultos dinamicamente e reativa botão
+        fetch("/cultos")
+          .then(response => response.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, "text/html");
+            const novosCultos = doc.querySelectorAll(".culto-bloco");
+
+            document.querySelectorAll(".culto-bloco").forEach(bloco => bloco.remove());
+
+            const btnAgendar = document.getElementById("btnMostrarForm");
+            novosCultos.forEach(bloco => btnAgendar.insertAdjacentElement("afterend", bloco));
+
+            // ✅ Reanexar botão
+            const novoBtn = document.getElementById("btnMostrarForm");
+            const formNovo = document.getElementById("formNovoCulto");
+            if (novoBtn && formNovo) {
+              novoBtn.addEventListener("click", () => {
+                formNovo.style.display = formNovo.style.display === "none" ? "block" : "none";
+              });
+            }
+          })
+          .catch(erro => {
+            console.error("Erro:", erro);
+            alert("❌ Erro ao atualizar os cultos.");
+          });
+      })
+      .catch(erro => {
+        console.error("Erro:", erro);
+        alert("❌ Erro ao criar o culto.");
+      });
+    });
+  }
+</script>
+
+</body>
+</html>

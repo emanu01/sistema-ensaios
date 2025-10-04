@@ -1,0 +1,227 @@
+/* 🔹 Configuração global */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #00274D; /* Azul escuro */
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+/* 🔹 Estilização da tabela com degradê e transparência */
+table {
+    width: 80%;
+    margin: auto;
+    border-collapse: collapse;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05)); /* 🔹 Degradê suave */
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* 🔹 Sombra mais leve */
+    backdrop-filter: blur(10px); /* 🔹 Efeito de vidro fosco */
+}
+
+/* 🔹 Células da tabela */
+th, td {
+    padding: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: left;
+    color: rgb(248, 246, 246);
+}
+
+/* 🔹 Cabeçalhos com azul mais escuro */
+th {
+    background-color: rgba(0, 39, 77, 0.7);
+    font-weight: bold;
+}
+
+/* 🔹 Botões gerais */
+button {
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    margin: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* 🔹 Botões principais */
+.btn-excluir {
+    background-color: #dc3545; /* Vermelho padrão */
+    color: white;
+}
+
+.btn-excluir:hover {
+    background-color: #c82333;
+}
+
+/* 🔹 Botão Rebaixar */
+.btn-rebaixar {
+    background-color: #fd7e14; /* Laranja padrão */
+    color: white;
+}
+
+.btn-rebaixar:hover {
+    background-color: #e76a00;
+}
+
+/* 🔹 Botão Promover */
+.btn-promover {
+    background-color: #28a745; /* Verde padrão */
+    color: white;
+}
+
+.btn-promover:hover {
+    background-color: #218838;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+    font-weight: bold;
+    padding: 8px 16px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+    float: right; /* 🔹 Move o botão para a esquerda */
+    margin-left: 10px; /* 🔹 Adiciona espaço para evitar que fique grudado na borda */
+    margin-top: -0.1%;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+
+/* 🔹 Botão de Navegação */
+.botao {
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.botao:hover {
+    background-color: #0056b3;
+}
+
+/* 🔹 Espaçamento entre botões e tabela */
+.botao,
+form {
+    margin-bottom: 20px; /* 🔹 Adiciona espaçamento abaixo dos botões e formulários */
+}
+
+/* 🔹 Ajuste na tabela */
+table {
+    width: 80%;
+    margin: auto;
+    border-collapse: collapse;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    margin-top: 30px; /* 🔹 Adiciona espaço entre os botões e a tabela */
+}
+
+/* 🔹 Ajuste nos botões */
+button {
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    margin: 10px; /* 🔹 Adiciona espaçamento entre os botões */
+    font-size: 14px;
+    font-weight: bold;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.botao {
+    display: inline-block;
+    padding: 6px 12px; /* 🔹 Reduzi o espaçamento interno */
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: 0.3s;
+    width: fit-content; /* 🔹 Ajusta o tamanho ao conteúdo */
+    min-width: 100px; /* 🔹 Define um tamanho mínimo menor */
+    float: right;
+}
+
+
+.botao:hover {
+    background-color: #0056b3;
+}
+
+.botao-promover-cantor {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.botao-promover-cantor:hover {
+    background-color: #0056b3;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 90%;
+  width: 500px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 1000;
+}
+
+.modal.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  .modal {
+    width: 95%;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .modal-close {
+    font-size: 2rem;
+  }
+}
+

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Recuperar Senha</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='recuperar_senha.css') }}">
+</head>
+<body>
+<div class="container">
+    <h2>Recuperar Senha</h2>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <div class="balao-erro {{ category }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <form method="POST">
+        <label for="username">Nome de usuário:</label>
+        <input type="text" name="username" id="username" required>
+        <button type="submit">Continuar</button>
+    </form>
+</div>
+</body>
+</html>

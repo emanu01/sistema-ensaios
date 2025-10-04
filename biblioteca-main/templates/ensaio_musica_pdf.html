@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Músicas para Ensaio</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      margin: 40px;
+      color: #2c2c2c;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    h1 {
+      font-size: 26px;
+      color: #444;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-top: 20px;
+    }
+
+    thead {
+      background-color: #4a90e2;
+      color: white;
+    }
+
+    th, td {
+      padding: 12px 14px;
+      text-align: left;
+    }
+
+    th {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    tbody tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    tbody tr:hover {
+      background-color: #eef6ff;
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 12px;
+      text-align: center;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Músicas para Ensaio</h1>
+  </header>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Título</th>
+        <th>Autor</th>
+        <th>Gênero</th>
+        <th>Tom</th>
+        <th>Cantor</th>
+        <th>Status</th>
+        <th>Data de Ensaio</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for musica in musicas %}
+        <tr>
+          <td>{{ musica.titulo }}</td>
+          <td>{{ musica.autor }}</td>
+          <td>{{ musica.genero }}</td>
+          <td>{{ musica.tom }}</td>
+          <td>{{ musica.cantor }}</td>
+          <td>{{ musica.status }}</td>
+          <td>{{ musica.data_ensaio }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <footer>
+    Relatório gerado automaticamente — Repertorio Online
+  </footer>
+</body>
+</html>

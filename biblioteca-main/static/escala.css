@@ -1,0 +1,310 @@
+/* 🔹 Configuração global */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom, #080808, #003366); /* 🔹 Fundo com degradê */
+    color: white;
+}
+
+/* 🔹 Cabeçalho */
+header {
+    background-color: #080808;
+    color: #ffffff;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    font-size: 36px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+/* 🔹 Tabela com transparência */
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background: rgba(8, 8, 8, 0.15); /* 🔹 Transparência sutil */
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(8px); /* 🔹 Efeito de vidro fosco */
+    overflow: hidden;
+}
+
+/* 🔹 Células da tabela */
+table th, table td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid rgba(2, 2, 2, 0.2);
+}
+
+/* 🔹 Estilização dos cabeçalhos */
+table th {
+    background-color: rgba(8, 8, 8, 0.7);
+    color: #ffffff;
+    font-size: 18px;
+}
+
+/* 🔹 Linhas alternadas */
+table tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* 🔹 Efeito hover */
+table tr:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+x
+/* 🔹 Botões de ação */
+button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+/* 🔹 Botão Excluir */
+.btn-excluir {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-excluir:hover {
+    background-color: #c82333;
+}
+
+/* 🔹 Botão Sair */
+.botao-sair {
+    display: block;
+    width: fit-content;
+    margin: 40px auto;
+    padding: 12px 24px;
+    background-color: #e70e0e;
+    color: #ffffff;
+    font-size: 18px;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: 0.3s;
+    text-align: center;
+    font-weight: bold;
+}
+
+.botao-sair:hover {
+    background-color: #f00101;
+    transform: scale(1.05);
+}
+
+.botao-voltar {
+    display: block; /* 🔹 Faz o botão ocupar uma linha inteira */
+    margin: 20px auto; /* 🔹 Centraliza horizontalmente */
+    padding: 10px 20px;
+    background-color: #e40808;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center; /* 🔹 Garante que o texto fique centralizado */
+    transition: 0.3s;
+    width: fit-content; /* 🔹 Ajusta ao tamanho do texto */
+}
+
+.botao-voltar:hover {
+    background-color: #0056b3;
+}
+
+/* 🔹 Botão Adicionar */
+.botao-adicionar {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background-color: #28a745;
+    color: white;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: 0.3s;
+    border: none;
+    cursor: pointer;
+}
+
+.botao-adicionar:hover {
+    background-color: #218838;
+}
+
+/* 🔹 Botão Excluir */
+.btn-excluir {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background-color: #dc3545;
+    color: rgb(8, 8, 8);
+    border-radius: 5px;
+    font-weight: bold;
+    transition: 0.3s;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-excluir:hover {
+    background-color: #c82333;
+}
+
+/* 🔹 Ajuste na tabela */
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background: rgba(255, 255, 255, 0.15); /* 🔹 Transparência sutil */
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(8px);
+}
+
+/* 🔹 Responsividade */
+@media (max-width: 768px) {
+    table {
+        width: 95%;
+    }
+
+    .botao-voltar {
+        display: block;
+        width: 90%;
+        margin: 10px auto;
+    }
+}
+
+form {
+    display: flex;
+    flex-direction: column; /* 🔹 Organiza os elementos verticalmente */
+    align-items: center; /* 🔹 Centraliza os elementos horizontalmente */
+    justify-content: center; /* 🔹 Mantém tudo bem centralizado */
+    width: 50%; /* 🔹 Define um tamanho adequado */
+    margin: 5px auto; /* 🔹 Centraliza na tela */
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.15); /* 🔹 Fundo com leve transparência */
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(8px);
+}
+
+/* 🔹 Ajuste nos inputs */
+form input,
+form select {
+    width: 80%;
+    padding: 8px;
+    margin: 8px 0;
+    border-radius: 5px;
+    border: none;
+    text-align: center;
+}
+
+/* 🔹 Botão Adicionar */
+.botao-adicionar {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background-color: #FF8C00;
+    color: rgb(10, 10, 10);
+    font-weight: bold;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.botao-adicionar:hover {
+    background-color: #f1f3f1;
+}
+
+/* 🔹 Centralizar o botão Voltar */
+.botao-voltar {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #be1010;
+    color: rgb(20, 20, 20);
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+    transition: 0.3s;
+    width: fit-content;
+}
+
+.botao-voltar:hover {
+    background-color: #edeef0;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url("imagens/FUNDO1.jpg"); /* ajuste o caminho */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  filter: blur(8px);
+  z-index: -1;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 90%;
+  width: 500px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 1000;
+}
+
+.modal.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  .modal {
+    width: 95%;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .modal-close {
+    font-size: 2rem;
+  }
+}
+

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de conta</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='register.css') }}">
+</head>
+
+<body>
+    <header>
+        <h1 class="efeito-aproximacao">Cadastre-se para organizar seus ensaios!</h1>
+    </header>
+
+    <main class="form-container">
+
+        <!-- ✅ Bloco para exibir mensagens flash -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <form action="/register" method="POST">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome" required>
+
+            <label for="sobrenome">Sobrenome:</label>
+            <input type="text" id="sobrenome" name="sobrenome" required>
+
+            <label for="telefone">Número de telefone:</label>
+            <input type="tel" id="telefone" name="telefone" pattern="[0-9]{10,11}" required>
+
+            <label for="username">Usuário:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="password">Senha:</label>
+            <input type="password" id="password" name="password" required> 
+            
+            <label for="pergunta_seguranca">Pergunta de segurança:</label>
+            <label for="pergunta_seguranca">Pergunta de segurança:</label>
+            <select id="pergunta_seguranca" name="pergunta_seguranca" required>
+                <option value="">Selecione uma pergunta</option>
+                <option value="Qual a sua música preferida?">Qual a sua música preferida?</option>
+                <option value="Quais os quatro últimos dígitos do seu contato?">Quais os quatro últimos dígitos do seu contato?</option>
+                <option value="Qual a cidade onde você nasceu?">Qual a cidade onde você nasceu?</option>
+            </select>
+
+            <label for="resposta_seguranca">Resposta da pergunta:</label>
+            <input type="text" id="resposta_seguranca" name="resposta_seguranca" required>
+
+            <button type="submit" class="botao-estilizado">
+                <i class="fas fa-user-plus"></i> Criar Conta
+            </button>
+
+            <p id="mensagem-erro" class="mensagem-erro">⚠️ Preencha todos os campos obrigatórios!</p>
+        </form>
+
+        <button onclick="window.location.href='/'" class="botao-sair">Sair</button>
+        <p>Já tem uma conta? <a href="/login" class="link-login">Faça login</a></p>
+    </main>
+
+    <footer>
+        <p2>© 2025 Repertório Online - Todos os direitos reservados.</p2>
+    </footer>
+
+    <script>
+        document.querySelector("form").addEventListener("submit", function(event) {
+            let campos = ["nome", "sobrenome", "telefone", "username", "password"];
+            let preenchido = true;
+
+            campos.forEach(function(campo) {
+                let valor = document.getElementById(campo).value.trim();
+                if (valor === "") preenchido = false;
+            });
+
+            let mensagemErro = document.getElementById("mensagem-erro");
+
+            if (!preenchido) {
+                mensagemErro.style.display = "block";
+                event.preventDefault();
+            } else {
+                mensagemErro.style.display = "none";
+            }
+        });
+    </script>
+</body>
+</html>

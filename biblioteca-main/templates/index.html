@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Repertório Online</title>
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!--link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet"-->
+</head>
+
+
+<body>
+  <div class="fundo-com-conteudo">
+    <header>
+      <div class="header-esquerda">
+        <h1>Seu Guia de Ensaio</h1>
+      </div>
+      <div class="header-direita">
+        <button class="botao-estilizado" onclick="window.location.href='/login'">
+          <i class="fas fa-sign-in-alt"></i> Entrar
+        </button>
+      </div>
+    </header>
+
+    <main class="conteudo-central">
+      <h1>🎧 Repertório Online</h1>
+      <p>Organize seus ensaios com excelência e propósito.</p>
+      <a href="/register" class="botao-acao">Cadastre-se</a>
+    </main>
+
+    <footer>
+      <p>© 2025 Repertório Online - Todos os direitos reservados.</p>
+      <div class="redes-sociais">
+        <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+        <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
+        <a href="#"><i class="fab fa-twitter"></i> Twitter</a>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

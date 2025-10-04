@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Escala de Componentes</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='escala.css') }}">
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+  <header>
+    <h1>Escala de Componentes</h1>
+  </header>
+
+  <a href="{{ url_for('musicas') }}" class="botao-voltar">
+    <i class="fa-solid fa-music"></i> Voltar ao repertório
+  </a>
+
+  <main>
+    <form method="POST" action="{{ url_for('escala') }}">
+      <label for="componente">Nome do Componente:</label>
+      <input type="text" id="componente" name="componente" required>
+
+      <label for="dia">Dia:</label>
+      <input type="date" id="dia" name="dia" required>
+
+      <label for="horario">Horário:</label>
+      <input type="time" id="horario" name="horario" required>
+
+      <button type="submit" class="botao-adicionar">
+        <i class="fa-solid fa-plus"></i> Adicionar Escala
+      </button>
+
+        <div style="margin-top: 20px;">
+            <button onclick="imprimirEscala()" type="button" class="botao-imprimir">🖨️ Imprimir Escala</button>
+        </div>
+
+    </form>
+
+    {% if escalas %}
+    <div class="tabela-visivel">
+      <table>
+        <thead>
+          <tr>
+            <th>Componente</th>
+            <th>Dia</th>
+            <th>Horário</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for escala in escalas %}
+          <tr>
+            <td>{{ escala.componente }}</td>
+            <td>{{ escala.dia }}</td>
+            <td>{{ escala.horario }}</td>
+            <td>
+              {% if current_user.role in ["cantor", "admin"] %}
+              <form method="POST" action="{{ url_for('excluir_escala', escala_id=escala.id) }}">
+                <button type="submit" class="btn-excluir" onclick="return confirm('Tem certeza que deseja excluir esta escala?');">
+                  <i class="fa-solid fa-trash"></i> Excluir
+                </button>
+              </form>
+              {% else %}
+              <p style="color: red;">🚫 Você não tem privilégios para apagar a escala.</p>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p>📌 Nenhuma escala cadastrada no momento.</p>
+    {% endif %}
+
+
+    {% if escalas_agrupadas %}
+    <div id="cardEscala" style="display: none;">
+      {% for data, lista in escalas_agrupadas.items() %}
+      <h2>📅 {{ data }}</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Componente</th>
+            <th>Horário</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for escala in lista %}
+          <tr>
+            <td>{{ escala.componente }}</td>
+            <td>{{ escala.horario }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </main>
+
+  <script>
+    window.onpageshow = function(event) {
+      if (event.persisted || performance.navigation.type === 2) {
+        history.replaceState(null, "", "{{ url_for('logout') }}");
+        window.location.href = "{{ url_for('logout') }}";
+      }
+    };
+
+    function imprimirEscala() {
+      const card = document.getElementById('cardEscala');
+      if (!card) {
+        alert("Não há escala disponível para impressão.");
+        return;
+      }
+
+      const estilo = `
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background-color: #fff;
+            color: #222;
+          }
+          h1 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+          }
+          h2 {
+            font-size: 20px;
+            margin-top: 30px;
+            color: #2c3e50;
+          }
+          table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+          }
+          th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: left;
+          }
+          th {
+            background-color: #f0f0f0;
+          }
+          tr:nth-child(even) {
+            background-color: #f9f9f9;
+          }
+        </style>
+      `;
+
+      const janela = window.open('', '', 'width=800,height=600');
+      janela.document.write('<html><head><title>Escala de Componentes</title>' + estilo + '</head><body>');
+      janela.document.write('<h1>Escala de Componentes</h1>');
+      janela.document.write(card.innerHTML);
+      janela.document.write('</body></html>');
+      janela.document.close();
+      janela.focus();
+      janela.print();
+    }
+  </script>
+</body>
+</html>

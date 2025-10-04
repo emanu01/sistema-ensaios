@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Definir Nova Senha</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='nova_senha.css') }}">
+</head>
+<body>
+<div class="container">
+    <h2>Definir Nova Senha</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <div class="balao-erro {{ category }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('trocar_senha', usuario_id=usuario.id) }}">
+        <label for="nova_senha">Nova senha:</label>
+        <input type="password" name="nova_senha" id="nova_senha" required>
+
+        <label for="confirmar_senha">Confirmar nova senha:</label>
+        <input type="password" name="confirmar_senha" id="confirmar_senha" required>
+
+        <button type="submit" class="botao-redefinir">🔒 Redefinir Senha</button>
+        <div id="feedback-senha" class="feedback-senha"></div>
+    </form>
+</div>
+
+<script>
+    document.getElementById("nova_senha").addEventListener("input", function () {
+        const senha = this.value;
+        const feedback = document.getElementById("feedback-senha");
+        let mensagens = [];
+
+        if (senha.length < 5) {
+            mensagens.push("⚠️ Mínimo de 5 caracteres.");
+        }
+        if (!/[A-Z]/.test(senha)) {
+            mensagens.push("⚠️ Adicione uma letra maiúscula.");
+        }
+        if (!/\d/.test(senha)) {
+            mensagens.push("⚠️ Adicione pelo menos um número.");
+        }
+        // Se quiser exigir caractere especial:
+        // if (!/[!@#$%^&*(),.?":{}|<>]/.test(senha)) {
+        //     mensagens.push("⚠️ Adicione um caractere especial.");
+        // }
+
+        if (mensagens.length === 0) {
+            feedback.textContent = "✅ Senha forte!";
+            feedback.style.color = "green";
+        } else {
+            feedback.innerHTML = mensagens.join("<br>");
+            feedback.style.color = "red";
+        }
+    });
+</script>
+
+</body>
+</html>
