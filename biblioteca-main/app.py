@@ -11,15 +11,11 @@ import pdfkit
 from collections import defaultdict
 
 
-
-
-
-
-
 engine = create_engine("sqlite:///music.db")  # 🔹 Ajuste para sua URL de banco
 
-app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///music.db"
+app = Flask(__name__, instance_path=os.path.join(os.path.abspath(os.path.dirname(__file__)), 'instance'))
+basedir = os.path.abspath(os.path.dirname(__file__))
+app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{os.path.join(basedir, 'instance', 'music.db')}"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.secret_key = os.urandom(24)  # 🔒 Chave única para sessões
 
