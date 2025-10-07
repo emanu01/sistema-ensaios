@@ -34,7 +34,7 @@ input {
 }
 
 .botao-estilizado {
-    width: 30%;
+    width: 100%;
     padding: 10px;
     font-size: 1rem;
     cursor: pointer;
@@ -59,6 +59,7 @@ input {
     border-radius: 5px;
     cursor: pointer;
     border: none;
+    width: 100%;
 }
 
 .botao-sair:hover {
@@ -181,3 +182,41 @@ h1 {
   color: #155724;
 }
 
+@media (max-width: 768px) {
+  body {
+    padding: 20px;
+  }
+
+  .form-container {
+    padding: 30px;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  label {
+    font-size: 1rem;
+    text-align: left;
+  }
+
+  input,
+  select {
+    font-size: 1rem;
+    padding: 8px;
+  }
+
+  .botao-estilizado,
+  .botao-sair {
+    font-size: 1rem;
+    padding: 10px;
+    width: 100%;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  .mensagem-erro {
+    font-size: 1rem;
+  }
+}

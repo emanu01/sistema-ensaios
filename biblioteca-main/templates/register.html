@@ -1,20 +1,23 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de conta</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='register.css') }}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro de conta</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='register.css') }}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 
 <body>
-    <header>
-        <h1 class="efeito-aproximacao">Cadastre-se para organizar seus ensaios!</h1>
-    </header>
+  <header class="text-center mt-4">
+    <h1 class="efeito-aproximacao">Cadastre-se para organizar seus ensaios!</h1>
+  </header>
 
-    <main class="form-container">
+  <main class="container mt-4">
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-sm-12 form-container">
 
-        <!-- ✅ Bloco para exibir mensagens flash -->
         {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
             {% for category, message in messages %}
@@ -24,67 +27,82 @@
         {% endwith %}
 
         <form action="/register" method="POST">
+          <div class="mb-3">
             <label for="nome">Nome:</label>
             <input type="text" id="nome" name="nome" required>
+          </div>
 
+          <div class="mb-3">
             <label for="sobrenome">Sobrenome:</label>
             <input type="text" id="sobrenome" name="sobrenome" required>
+          </div>
 
+          <div class="mb-3">
             <label for="telefone">Número de telefone:</label>
             <input type="tel" id="telefone" name="telefone" pattern="[0-9]{10,11}" required>
+          </div>
 
+          <div class="mb-3">
             <label for="username">Usuário:</label>
             <input type="text" id="username" name="username" required>
+          </div>
 
+          <div class="mb-3">
             <label for="password">Senha:</label>
-            <input type="password" id="password" name="password" required> 
-            
-            <label for="pergunta_seguranca">Pergunta de segurança:</label>
+            <input type="password" id="password" name="password" required>
+          </div>
+
+          <div class="mb-3">
             <label for="pergunta_seguranca">Pergunta de segurança:</label>
             <select id="pergunta_seguranca" name="pergunta_seguranca" required>
-                <option value="">Selecione uma pergunta</option>
-                <option value="Qual a sua música preferida?">Qual a sua música preferida?</option>
-                <option value="Quais os quatro últimos dígitos do seu contato?">Quais os quatro últimos dígitos do seu contato?</option>
-                <option value="Qual a cidade onde você nasceu?">Qual a cidade onde você nasceu?</option>
+              <option value="">Selecione uma pergunta</option>
+              <option value="Qual a sua música preferida?">Qual a sua música preferida?</option>
+              <option value="Quais os quatro últimos dígitos do seu contato?">Quais os quatro últimos dígitos do seu contato?</option>
+              <option value="Qual a cidade onde você nasceu?">Qual a cidade onde você nasceu?</option>
             </select>
+          </div>
 
+          <div class="mb-3">
             <label for="resposta_seguranca">Resposta da pergunta:</label>
             <input type="text" id="resposta_seguranca" name="resposta_seguranca" required>
+          </div>
 
-            <button type="submit" class="botao-estilizado">
-                <i class="fas fa-user-plus"></i> Criar Conta
-            </button>
+          <button type="submit" class="botao-estilizado">
+            <i class="fas fa-user-plus"></i> Criar Conta
+          </button>
 
-            <p id="mensagem-erro" class="mensagem-erro">⚠️ Preencha todos os campos obrigatórios!</p>
+          <p id="mensagem-erro" class="mensagem-erro">⚠️ Preencha todos os campos obrigatórios!</p>
         </form>
 
-        <button onclick="window.location.href='/'" class="botao-sair">Sair</button>
-        <p>Já tem uma conta? <a href="/login" class="link-login">Faça login</a></p>
-    </main>
+        <button onclick="window.location.href='/'" class="botao-sair mt-3">Sair</button>
+        <p class="mt-2">Já tem uma conta? <a href="/login" class="link-login">Faça login</a></p>
+      </div>
+    </div>
+  </main>
 
-    <footer>
-        <p2>© 2025 Repertório Online - Todos os direitos reservados.</p2>
-    </footer>
+  <footer class="text-center mt-4">
+    <p>© 2025 Repertório Online - Todos os direitos reservados.</p>
+  </footer>
 
-    <script>
-        document.querySelector("form").addEventListener("submit", function(event) {
-            let campos = ["nome", "sobrenome", "telefone", "username", "password"];
-            let preenchido = true;
+  <script>
+    document.querySelector("form").addEventListener("submit", function(event) {
+      let campos = ["nome", "sobrenome", "telefone", "username", "password"];
+      let preenchido = true;
 
-            campos.forEach(function(campo) {
-                let valor = document.getElementById(campo).value.trim();
-                if (valor === "") preenchido = false;
-            });
+      campos.forEach(function(campo) {
+        let valor = document.getElementById(campo).value.trim();
+        if (valor === "") preenchido = false;
+      });
 
-            let mensagemErro = document.getElementById("mensagem-erro");
+      let mensagemErro = document.getElementById("mensagem-erro");
 
-            if (!preenchido) {
-                mensagemErro.style.display = "block";
-                event.preventDefault();
-            } else {
-                mensagemErro.style.display = "none";
-            }
-        });
-    </script>
+      if (!preenchido) {
+        mensagemErro.style.display = "block";
+        event.preventDefault();
+      } else {
+        mensagemErro.style.display = "none";
+      }
+    });
+  </script>
 </body>
 </html>

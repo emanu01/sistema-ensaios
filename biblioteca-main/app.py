@@ -489,8 +489,8 @@ def enviar_comentario():
 @app.route("/mensagens", methods=["GET"])
 @login_required
 def mensagens():
-    mensagens = Mensagem.query.order_by(Mensagem.timestamp.desc()).all()
-    mensagens_json = [{"id": m.id, "autor": m.autor.nome, "conteudo": m.conteudo, "data": m.timestamp.strftime("%d/%m/%Y %H:%M")} for m in mensagens]
+    mensagens = Mensagem.query.order_by(Mensagem.data_envio.desc()).all()
+    mensagens_json = [{"id": m.id, "autor": m.usuario.nome, "conteudo": m.conteudo, "data": m.data_envio.strftime("%d/%m/%Y %H:%M")} for m in mensagens]
     return jsonify(mensagens_json)
 
 @app.route('/enviar_mensagem', methods=['POST'])
@@ -509,12 +509,19 @@ def enviar_mensagem():
 
     return jsonify({"success": "Mensagem enviada com sucesso!"})
 
+from flask_login import login_required, current_user
+
 @app.route('/mensagens', methods=['GET'])
 def obter_mensagens():
-    mensagens = Mensagem.query.join(Usuario, Usuario.id == Mensagem.usuario_id).all()
+    mensagens = (
+        Mensagem.query
+        .join(Usuario, Usuario.id == Mensagem.usuario_id)
+        .order_by(Mensagem.data_envio.desc())  # ✅ usa o campo correto
+        .all()
+    )
 
     mensagens_formatadas = [{
-        "autor": mensagem.usuario.nome,  # 🔹 Agora pegamos o nome do usuário
+        "autor": mensagem.usuario.nome,
         "conteudo": mensagem.conteudo,
         "data": mensagem.data_envio.strftime("%d/%m/%Y %H:%M")
     } for mensagem in mensagens]
