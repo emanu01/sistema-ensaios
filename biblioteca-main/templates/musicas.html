@@ -57,12 +57,20 @@
 
 
 
-  <!-- Modal de Mensagens -->
-  <div id="modalMensagens" class="modal-mensagens" style="display:none;">
+<!-- Modal de Mensagens -->
+<div id="modalMensagens" class="modal-mensagens" style="display:none;">
     <div class="modal-content">
       <span class="close" id="fecharMensagens">&times;</span>
       <h3>📩 Caixa de Entrada</h3>
-      <div id="listaMensagens"></div>
+
+      <div id="listaMensagens">
+        <!-- Exemplo de mensagem -->
+        <div class="mensagem-item">
+          <span class="usuario">Emanuel:</span>
+          <span class="texto">Essa música já foi ensaiada com o grupo.</span>
+        </div>
+      </div>
+
       <textarea id="novaMensagem" placeholder="Digite sua mensagem..."></textarea>
       <button id="btnEnviarMensagem">✉️ Enviar</button>
     </div>
@@ -80,10 +88,11 @@
 
 
 
-  <div id="cardMusicas">
-    {% if musicas %}
+<div id="cardMusicas">
+  {% if musicas %}
       <form id="formMusicas">
-        <table class="tabela">
+        <div class="tabela-container">
+         <table class="tabela">
           <thead>
             <tr>
               <th>Título</th>
@@ -95,6 +104,7 @@
                 <th>Ação</th>
                 <th>Data do Ensaio</th>
               {% endif %}
+              <th>Adicionada por</th>
             </tr>
           </thead>
           <tbody id="tabelaMusicas">
@@ -109,150 +119,127 @@
               </td>
               {% if current_user.role in ["cantor", "admin"] %}
               <td>
-                <form method="POST" action="{{ url_for('excluir_musica', musica_id=musica.musica_id) }}">
-                  <button type="submit" class="botao-excluir">❌ Excluir</button>
-                </form>
+                <button type="submit"
+                        formaction="{{ url_for('excluir_musica', musica_id=musica.musica_id) }}"
+                        formmethod="POST"
+                        class="botao-excluir">
+            ❌ Excluir
+                </button>
               </td>
               <td>
                 <button type="button" class="btnCalendario" data-id="{{ musica.musica_id }}">
-                  📅 {{ musica.data_ensaio.strftime('%d/%m/%Y') if musica.data_ensaio else '' }}
+            📅 {{ musica.data_ensaio.strftime('%d/%m/%Y') if musica.data_ensaio else '' }}
                 </button>
               </td>
               {% endif %}
+              <td>{{ musica.usuario.nome if musica.usuario else "Desconhecido" }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </form>
+
+
+      <!-- Área de impressão -->
+      <div id="area-impressao" style="display: none;">
+        <h2>🎼 Músicas Ensaiadas</h2>
+        <table class="tabela">
+          <thead>
+            <tr>
+              <th>Título</th>
+              <th>Autor</th>
+              <th>Tom</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for musica in musicas if musica.ensaiada %}
+            <tr>
+              <td>{{ musica.titulo }}</td>
+              <td>{{ musica.autor }}</td>
+              <td>{{ musica.tom }}</td>
             </tr>
             {% endfor %}
           </tbody>
         </table>
 
-        {% if musicas %}
-          <div id="area-impressao" style="display: none;">
-            <h2>🎼 Músicas Ensaiadas</h2>
-            <table>
-              <thead>
-                <tr>
-                  <th>Título</th>
-                  <th>Autor</th>
-                  <th>Tom</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for musica in musicas if musica.ensaiada %}
-                <tr>
-                  <td>{{ musica.titulo }}</td>
-                  <td>{{ musica.autor }}</td>
-                  <td>{{ musica.tom }}</td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-
-            <h2 style="margin-top: 40px;">🎯 Músicas a Ensaiar</h2>
-            <table>
-              <thead>
-                <tr>
-                  <th>Título</th>
-                  <th>Autor</th>
-                  <th>Tom</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for musica in musicas if not musica.ensaiada %}
-                <tr>
-                  <td>{{ musica.titulo }}</td>
-                  <td>{{ musica.autor }}</td>
-                  <td>{{ musica.tom }}</td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
-          {% endif %}
-
-        
-        
-
-        <div class="centraliza-botao-wrapper">
-          <button id="btnAbrirModalAdicionarMusica" class="botao-adicionar-musica" type="button">
-            ➕ Adicionar Nova Música
-          </button>
-        </div>
-      </form>
-
-      <div class="main-container">
-        <h2>Músicas Ensaiadas</h2>
-        <ul>
-          {% for musica in musicas %}
-            {% if musica.ensaiada %}
-            <li>
-              <strong>{{ musica.titulo }}</strong>
-              <span class="info-extra">— {{ musica.autor }} | Tom: {{ musica.tom }}</span>
-            </li>
-            {% endif %}
-          {% endfor %}
-        </ul>
-
-        <h2>Músicas a Ensaiar</h2>
-        <ul>
-          {% for musica in musicas %}
-            {% if not musica.ensaiada %}
-            <li>
-              <strong>{{ musica.titulo }}</strong>
-              <span class="info-extra">— {{ musica.autor }} | Tom: {{ musica.tom }}</span>
-            </li>
-            {% endif %}
-          {% endfor %}
-        </ul>
-
-        <div style="margin-top: 20px;">
-          <button onclick="imprimirMusicas()" type="button" class="botao-imprimir">🖨️ Imprimir Músicas</button>
-        </div>
-
+        <h2 style="margin-top: 40px;">🎯 Músicas a Ensaiar</h2>
+        <table class="tabela">
+          <thead>
+            <tr>
+              <th>Título</th>
+              <th>Autor</th>
+              <th>Tom</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for musica in musicas if not musica.ensaiada %}
+            <tr>
+              <td>{{ musica.titulo }}</td>
+              <td>{{ musica.autor }}</td>
+              <td>{{ musica.tom }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     {% else %}
       <p>📌 Nenhuma música cadastrada no momento.</p>
     {% endif %}
   </div>
-  </form>
 
+    <!-- ✅ Botão sempre visível -->
+    <div class="centraliza-botao-wrapper">
+      <button id="btnAbrirModalAdicionarMusica" class="botao-adicionar-musica" type="button">
+        ➕ Adicionar Nova Música
+      </button>
+    </div>
 
-<!-- Modal de Adicionar Música -->
-    <div id="modalAdicionarMusica" class="modal-adicionar" style="display: none;">
-      <div class="modal-content">
-        <span class="close" id="fecharModalAdicionarMusica">&times;</span>
-        <div class="container-adicionar">
-          <h2>Adicionar Nova Música</h2>
-          <form action="{{ url_for('musicas') }}" method="POST" class="formulario">
-            <label>Título:</label>
-            <input type="text" name="titulo" required />
-            <label>Autor:</label>
-            <input type="text" name="autor" required />
-            <label>Gênero:</label>
-            <input type="text" name="genero" required />
-            <label for="tom">Tom da Música:</label>
-            <select id="tom" name="tom" required>
-              <option value="" disabled selected>Selecione um tom</option>
-              <option value="C">Dó (C)</option>
-              <option value="C#">Dó# (C#)</option>
-              <option value="D">Ré (D)</option>
-              <option value="D#">Ré# (D#)</option>
-              <option value="E">Mi (E)</option>
-              <option value="F">Fá (F)</option>
-              <option value="F#">Fá# (F#)</option>
-              <option value="G">Sol (G)</option>
-              <option value="G#">Sol# (G#)</option>
-              <option value="A">Lá (A)</option>
-              <option value="A#">Lá# (A#)</option>
-              <option value="B">Si (B)</option>
-            </select>
-            <label><input type="checkbox" name="ensaiada" /> Ensaiada</label>
-            <button type="submit" class="botao-adicionar">
-              <i class="fa-solid fa-plus"></i> Adicionar Música
-            </button>
-          </form>
+  <div class="duas-listas">
+    <!-- Bloco: Músicas Ensaiadas -->
+    <div class="lista-cards">
+      <h2>🎼 Músicas Ensaiadas</h2>
+      {% for musica in musicas %}
+        {% if musica.ensaiada %}
+        <div class="card-musica ensaiada" data-id="{{ musica.musica_id }}">
+          <div class="card-header">
+            <i class="fa-solid fa-check-circle"></i>
+            <strong>{{ musica.titulo }}</strong>
+          </div>
+          <div class="card-body">
+            <p><strong>Autor:</strong> {{ musica.autor }}</p>
+            <p><strong>Tom:</strong> {{ musica.tom }}</p>
+          </div>
         </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    <!-- Bloco: Músicas a Ensaiar -->
+    <div class="lista-cards">
+      <h2>🎯 Músicas a Ensaiar</h2>
+      {% for musica in musicas %}
+        {% if not musica.ensaiada %}
+        <div class="card-musica a-ensaiar" data-id="{{ musica.musica_id }}">
+          <div class="card-header">
+            <i class="fa-solid fa-music"></i>
+            <strong>{{ musica.titulo }}</strong>
+          </div>
+          <div class="card-body">
+            <p><strong>Autor:</strong> {{ musica.autor }}</p>
+            <p><strong>Tom:</strong> {{ musica.tom }}</p>
+          </div>
+        </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+
+      <div style="margin-top: 20px;">
+        <button onclick="imprimirMusicas()" type="button" class="botao-imprimir">🖨️ Imprimir Músicas</button>
       </div>
     </div>
-  </main>
-
+  </div>
   <script>
     let musicaSelecionada = null;
 
@@ -399,22 +386,7 @@
       }
     };
   </script>
-  <!-- Modal: Adicionar Nova Música -->
-  <script>
-    document.getElementById("btnAbrirModalAdicionarMusica").addEventListener("click", () => {
-      document.getElementById("modalAdicionarMusica").style.display = "flex";
-    });
 
-    document.getElementById("fecharModalAdicionarMusica").addEventListener("click", () => {
-      document.getElementById("modalAdicionarMusica").style.display = "none";
-    });
-
-    window.addEventListener("click", e => {
-      if (e.target.id === "modalAdicionarMusica") {
-        document.getElementById("modalAdicionarMusica").style.display = "none";
-      }
-    });
-  </script>
 
   <script>
     function imprimirCard(botao) {
@@ -485,6 +457,47 @@
     }
   </script>
 
+
+      <!-- Modal de Adicionar Música -->
+    <div id="modalAdicionarMusica" class="modal-adicionar" style="display: none;">
+      <div class="modal-content">
+        <button id="fecharModalAdicionarMusica" class="fechar-modal" aria-label="Fechar">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="container-adicionar">
+          <h2>Adicionar Nova Música</h2>
+          <form action="{{ url_for('musicas') }}" method="POST" class="formulario">
+            <label>Título:</label>
+            <input type="text" name="titulo" required />
+            <label>Autor:</label>
+            <input type="text" name="autor" required />
+            <label>Gênero:</label>
+            <input type="text" name="genero" required />
+            <label for="tom">Tom da Música:</label>
+            <select id="tom" name="tom" required>
+              <option value="" disabled selected>Selecione um tom</option>
+              <option value="C">Dó (C)</option>
+              <option value="C#">Dó# (C#)</option>
+              <option value="D">Ré (D)</option>
+              <option value="D#">Ré# (D#)</option>
+              <option value="E">Mi (E)</option>
+              <option value="F">Fá (F)</option>
+              <option value="F#">Fá# (F#)</option>
+              <option value="G">Sol (G)</option>
+              <option value="G#">Sol# (G#)</option>
+              <option value="A">Lá (A)</option>
+              <option value="A#">Lá# (A#)</option>
+              <option value="B">Si (B)</option>
+            </select>
+            <label><input type="checkbox" name="ensaiada" /> Ensaiada</label>
+            <button type="submit" class="botao-adicionar">
+              <i class="fa-solid fa-plus"></i> Adicionar Música
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
   <footer class="rodape">
     <p>Sistema de Acompanhamento de Ensaios — Desenvolvido por Emanuel</p>
     <p>&copy; {{ current_year }} Todos os direitos reservados.</p>
@@ -494,5 +507,56 @@
       <a href="https://www.youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
     </div>
   </footer>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const abrirBtn = document.getElementById("btnAbrirModalAdicionarMusica");
+        const modal = document.getElementById("modalAdicionarMusica");
+        const fecharBtn = document.getElementById("fecharModalAdicionarMusica");
+
+        if (abrirBtn && modal && fecharBtn) {
+          abrirBtn.addEventListener("click", () => {
+            modal.style.display = "flex";
+          });
+
+          fecharBtn.addEventListener("click", () => {
+            modal.style.display = "none";
+          });
+
+          window.addEventListener("click", e => {
+            if (e.target === modal) {
+              modal.style.display = "none";
+            }
+          });
+        } else {
+          console.warn("❌ Elementos do modal não encontrados.");
+        }
+      });
+
+    function atualizarBlocosMusicas(musicaId, status) {
+      const card = document.querySelector(`.card-musica[data-id='${musicaId}']`);
+      if (!card) return;
+
+      const blocoEnsaiadas = document.querySelector(".duas-listas .lista-cards:nth-child(1)");
+      const blocoAEnsaiar = document.querySelector(".duas-listas .lista-cards:nth-child(2)");
+
+      // Remove o card atual
+      card.remove();
+
+      // Recria o card com a nova classe
+      const novoCard = document.createElement("div");
+      novoCard.className = `card-musica ${status ? "ensaiada" : "a-ensaiar"}`;
+      novoCard.setAttribute("data-id", musicaId);
+      novoCard.innerHTML = card.innerHTML;
+
+      // Insere no bloco correto
+      if (status) {
+        blocoEnsaiadas.appendChild(novoCard);
+      } else {
+        blocoAEnsaiar.appendChild(novoCard);
+      }
+    }
+    </script>
+
+    
 </body>
 </html>

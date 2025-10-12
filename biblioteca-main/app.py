@@ -54,6 +54,8 @@ class Music(db.Model):
     usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'))
     ensaiada = db.Column(db.Boolean, default=False)
     data_ensaio = db.Column(db.DateTime) 
+    
+    usuario = db.relationship('Usuario', backref='musicas')
 
     
 

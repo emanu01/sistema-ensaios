@@ -53,10 +53,12 @@
       {% for musica in musicas %}
         <label>
           <input type="checkbox" name="musicas" value="{{ musica.musica_id }}">
-          {{ musica.titulo }} <small>(Autor: {{ musica.autor }})</small>
+          {{ musica.titulo }} — {{ musica.tom }} <small>(Autor: {{ musica.autor }})</small>
         </label>
       {% endfor %}
     </div>
+
+    
 
     <label>👥 Escala de Músicos:</label>
     <div class="check-group">
