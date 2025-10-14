@@ -8,7 +8,7 @@
   <!-- Estilos -->
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <!--link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet"-->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 </head>
 
 
@@ -25,14 +25,20 @@
       </div>
     </header>
 
+
+
     <main class="conteudo-central">
-      <h1>🎧 Repertório Online</h1>
+      <div class="logo-central">
+        <img src="{{ url_for('static', filename='imagens/logo.png') }}" alt="Logo_Play_Repertório" />
+      </div>
+      
+      
       <p>Organize seus ensaios com excelência e propósito.</p>
       <a href="/register" class="botao-acao">Cadastre-se</a>
     </main>
 
     <footer>
-      <p>© 2025 Repertório Online - Todos os direitos reservados.</p>
+      <p>© 2025 Repertório Play - Todos os direitos reservados.</p>
       <div class="redes-sociais">
         <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
         <a href="#"><i class="fab fa-facebook"></i> Facebook</a>

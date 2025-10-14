@@ -1,9 +1,11 @@
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #0b0b0c; /* 🔹 Azul escuro */
-    color: white;
-    text-align: center;
-    padding: 20px;
+  height: 100vh;
+  width: 100vw;
+  font-family: 'Poppins', sans-serif;
+  background-color: #000;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(to bottom,#1a001f,#391338);
 }
 
 .form-container {
@@ -40,15 +42,16 @@ input {
     font-size: 1rem;
     cursor: pointer;
     transition: transform 0.3s;
-    background-color: #ff7300; /* 🔹 Azul vibrante */
+    background-color: #8231b1; /* 🔹 Azul vibrante */
     color: rgb(10, 10, 10);
     border-radius: 5px;
     border: none;
+    font-family: 'Montserrat', sans-serif; /* ou outra fonte que preferir */
 }
 
 .botao-estilizado:hover {
     transform: scale(1.05);
-    background-color: #eeeff0;
+    background-color: #4d0669;
 }
 
 .botao-sair {
@@ -68,18 +71,18 @@ input {
     transform: scale(1.05);
 }
 
-.login-icon {
-  font-size: 7rem;              /* 🔹 Tamanho grande do ícone */
-  color: #070707;               /* 🔹 Cor do ícone (quase preto) */
-  background-color: #faf9f9ef;       /* 🔹 Fundo branco atrás do ícone */
-  display: inline-block;        /* 🔹 Permite aplicar padding/margens corretamente */
+/*.login-icon {
+  font-size: 7rem;              /* 🔹 Tamanho grande do ícone 
+  color: #070707;               /* 🔹 Cor do ícone (quase preto) 
+  background-color: #faf9f9ef;       /* 🔹 Fundo branco atrás do ícone 
+  display: inline-block;        /* 🔹 Permite aplicar padding/margens corretamente 
   text-align: center;
   margin-bottom: 10px;
+  padding: 20px;                /* 🔹 Espaço interno para dar “respiro” ao fundo 
+  border-radius: 50%;          /* 🔹 Deixa o fundo circular (opcional) 
+  box-shadow: 0 0 15px rgba(0,0,0,0.2); /* 🔹 Sombra leve para destaque 
+}*/
 
-  padding: 20px;                /* 🔹 Espaço interno para dar “respiro” ao fundo */
-  border-radius: 50%;          /* 🔹 Deixa o fundo circular (opcional) */
-  box-shadow: 0 0 15px rgba(0,0,0,0.2); /* 🔹 Sombra leve para destaque */
-}
 
 .input-container {
     display: flex;
@@ -93,11 +96,6 @@ input {
 }
 
 
-.input-container i {
-    font-size: 1rem; /* 🔹 Aumenta o ícone */
-    color: #080808; /* 🔹 Mantém contraste */
-    margin-right: 10px; /* 🔹 Espaço entre o ícone e input */
-}
 
 
 .input-container input {
@@ -148,20 +146,20 @@ input {
     right: 10px;
 }
 
-body::before {
+/*body::before {
   content: "";
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-image: url("imagens/FUNDO1.jpg"); /* ajuste o caminho */
+  background-image: url("imagens/FUNDO1.jpg"); /* ajuste o caminho 
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   filter: blur(8px);
   z-index: -1;
-}
+}*/
 
 .modal {
   position: fixed;
@@ -230,11 +228,7 @@ body::before {
     padding: 20px;
   }
 
-  .login-icon {
-    font-size: 5rem;
-    padding: 10px;
-  }
-
+  
   .input-container {
     flex-direction: column;
     align-items: flex-start;
@@ -264,3 +258,14 @@ body::before {
     padding: 10px;
   }
 }
+
+.logo-central img {
+  max-width: 250px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  filter: brightness(0.8) contrast(2.1);
+  transform: perspective(800px) rotateX(2deg);
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
