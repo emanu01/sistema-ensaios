@@ -67,7 +67,7 @@ header {
 /* Conteúdo central */
 .conteudo-central {
   text-align: center;
-  background-color: rgba(216, 212, 212, 0.178);
+  background-color: rgba(240, 238, 238, 0.932);
   padding: 25px;
   border-radius: 12px;
   color: rgb(7, 7, 7);
@@ -75,6 +75,10 @@ header {
   margin: auto;
   box-shadow: 0 0 20px rgba(0,0,0,0.3);
   font-family: 'Poppins', sans-serif;
+  border: 2px solid #960ecc;
+  outline: 2px solid #080808; /* tom mais escuro da paleta */
+  outline-offset: 4px;
+  border-radius: 12px;
 }
 
 .botao-acao {
@@ -179,11 +183,6 @@ footer {
   filter: brightness(0.8) contrast(2.1);
   transform: perspective(800px) rotateX(2deg);
   transition: transform 0.3s ease, filter 0.3s ease;
-
-  border: 2px solid #b695c0;
-  outline: 2px solid #391338; /* tom mais escuro da paleta */
-  outline-offset: 4px;
-  border-radius: 12px;
 }
 
 

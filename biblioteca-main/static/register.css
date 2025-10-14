@@ -1,13 +1,13 @@
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #0d0d0e; /* 🔹 Mantendo a cor azul do projeto */
+    background: linear-gradient(to bottom,#1a001f,#391338);
     color: white;
     text-align: center;
     padding: 40px;
 }
 
 .form-container {
-    background-color: rgba(243, 239, 239, 0.959);
+    background-color: rgb(199, 195, 198);
     padding: 60px;
     width: 90%;
     max-width: 400px;
@@ -93,20 +93,20 @@ p {
     color: #0a0a0a;
 }
 
-body::before {
+/*body::before {
   content: "";
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-image: url("imagens/FUNDO1.jpg"); /* ajuste o caminho */
+  background-image: url("imagens/FUNDO1.jpg"); /* ajuste o caminho 
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   filter: blur(8px);
   z-index: -1;
-}
+}*/
 
 h1 {
     color: #050505;
