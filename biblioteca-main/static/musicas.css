@@ -21,7 +21,7 @@ body {
 }
 
 /* 🔹 Imagem de fundo com desfoque */
-body::before {
+*/body::before {
   content: "";
   position: fixed;
   top: 0;
@@ -34,7 +34,7 @@ body::before {
   background-size: cover;
   filter: blur(8px);
   z-index: -1;
-}
+}*/
 
 /* 🔹 Cabeçalho */
 header {

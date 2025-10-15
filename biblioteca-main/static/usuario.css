@@ -6,11 +6,11 @@ body {
   text-align: center;
   padding: 20px;
   position: relative;
-  background: none;
+  background: linear-gradient(to bottom,#1a001f,#391338);
   padding-bottom: 80px; /* espaço para rodapé */
 }
 
-body::before {
+/*body::before {
   content: "";
   position: fixed;
   top: 0;
@@ -25,7 +25,7 @@ body::before {
 }
 
 /* 🔹 Cabeçalho */
-header {
+header.container-fluid {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -33,12 +33,15 @@ header {
   background-color: rgba(7, 7, 7, 0.719);
   border-radius: 8px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(#020202,#050505);
+  
 }
 
 header h1 {
   font-size: 2rem;
   text-align: center;
   margin-bottom: 1rem;
+  color: #f5f5f5;
 }
 
 
@@ -699,3 +702,36 @@ header form {
     padding: 8px 12px;
   }
 }
+
+#btnAbrirMensagens {
+  background-color: #391338;
+  color: #f0f1f3;
+  border: 2px solid #eeeff1;
+}
+
+#btnAbrirMensagens:hover {
+  background-color: #050505;
+  color: #ffffff;
+}
+
+form button[type="submit"] {
+  background-color: #f30808;
+  color: #f8f7f7;
+  border: 2px solid #ececec;
+}
+
+.container .btn {
+  font-size: 1rem;
+  padding: 1px 24px;
+  border-radius: 10px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  color: #f5f6f7;
+}
+
+
+

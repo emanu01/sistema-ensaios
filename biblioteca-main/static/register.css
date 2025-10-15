@@ -1,13 +1,13 @@
 body {
     font-family: 'Arial', sans-serif;
-    background: linear-gradient(to bottom,#1a001f,#391338);
+    background: linear-gradient(to bottom,#1a001f,#39133881);
     color: white;
     text-align: center;
     padding: 40px;
 }
 
 .form-container {
-    background-color: rgb(199, 195, 198);
+    background: linear-gradient(#642062,#0c0c0c);
     padding: 60px;
     width: 90%;
     max-width: 400px;
@@ -39,41 +39,59 @@ input {
     font-size: 1rem;
     cursor: pointer;
     transition: transform 0.3s;
-    background-color: #f07008; /* 🔹 Azul padrão */
-    color: rgb(5, 5, 5);
+    background-color: #8231b1; /* 🔹 Azul padrão */
+    color: rgb(233, 233, 233);
     border-radius: 5px;
     border: none;
 }
 
 .botao-estilizado:hover {
     transform: scale(1.05);
-    background-color: #a4a5a5; /* 🔹 Azul mais escuro no hover */
+    background-color: #5e05b1; /* 🔹 Azul mais escuro no hover */
 }
 
 .botao-sair {
-    margin-top: 15px;
-    padding: 10px;
-    font-size: 1rem;
-    background-color: #B22222;
-    color: rgb(5, 5, 5);
-    border-radius: 5px;
-    cursor: pointer;
-    border: none;
-    width: 100%;
+  margin-top: 5px;
+  padding: 6px 50px;
+  font-size: 1rem;
+  background-color: #B22222;
+  color: rgb(248, 248, 248);
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  width: fit-content !important;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: 'Poppins', sans-serif;
+  
 }
+
+@media (max-width: 576px) {
+  .botao-sair {
+    width: 100%;
+    font-size: 1.1rem;
+  }
+}
+
 
 .botao-sair:hover {
     background-color: #8B0000;
+     transform: scale(1.05);
+}
+
+.botao-wrapper {
+  text-align: center;
 }
 
 .link-login {
-    color: #c57a0a; /* 🔹 Azul vibrante */
+    color: #0a17c5; /* 🔹 Azul vibrante */
     font-weight: bold; /* 🔹 Deixa o link mais destacado */
     text-decoration: none; /* 🔹 Remove sublinhado */
 }
 
 .link-login:hover {
-    color: #df3b8d; /* 🔹 Azul mais escuro ao passar o mouse */
+    color: #903bdf; /* 🔹 Azul mais escuro ao passar o mouse */
     text-decoration: underline;
 }
 
@@ -109,13 +127,22 @@ p {
 }*/
 
 h1 {
-    color: #050505;
-    text-shadow: 
-    -1px -1px 0 #f0eeee,  /* canto superior esquerdo */
-     1px -1px 0 #f5f3f3,  /* canto superior direito */
-    -1px  1px 0 #f5f3f3,  /* canto inferior esquerdo */
-     1px  1px 0 #f1eeee;  /* canto inferior direito */
+  font-family: 'Playfair Display', serif; /* fonte artística */
+  font-size: 2.8rem;
+  color: #e2e2e2;
+  background-color: #0c0c0c;
+  padding: 12px 24px;
+  border-radius: 8px;
 
+  text-shadow:
+    -1px -1px 0 #dfdada,   /* canto superior esquerdo */
+     1px -1px 0 #f5f3f3,   /* canto superior direito */
+    -1px  1px 0 #f5f3f3,   /* canto inferior esquerdo */
+     1px  1px 0 #f1eeee,   /* canto inferior direito */
+     0 0 12px rgba(150, 8, 95, 0.4); /* brilho lilás suave */
+  
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 .modal {
@@ -220,3 +247,56 @@ h1 {
     font-size: 1rem;
   }
 }
+
+.form-container p {
+  font-family: 'Poppins', sans-serif;
+  
+  color: #d4edda;
+}
+
+form {
+  font-family: 'Poppins', sans-serif;
+  color: #f5f0fa; /* cor do texto */
+  background-color: transparent;
+  padding: 20px;
+}
+
+form label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #b695c0; /* lilás claro */
+}
+
+form input,
+form select {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif;
+  border: 1px solid #96085f; /* borda roxa */
+  border-radius: 6px;
+  background-color: #fdf9ff; /* fundo suave */
+  color: #333;
+  margin-bottom: 16px;
+}
+
+form input:focus,
+form select:focus {
+  outline: none;
+  border-color: #b695c0;
+  box-shadow: 0 0 8px rgba(150, 8, 95, 0.3);
+}
+
+.logo-central img {
+  max-width: 250px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  transform: perspective(800px) rotateX(2deg);
+  transition: transform 0.3s ease, filter 0.3s ease;
+  animation: brilho-pulsante 2s infinite;
+  filter: brightness(0.8) contrast(2.1);
+}
+
+
