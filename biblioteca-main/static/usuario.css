@@ -38,37 +38,30 @@ header.container-fluid {
 }
 
 header h1 {
-  font-size: 2rem;
+  font-size: 1.6rem;
+  font-weight: 600;
   text-align: center;
   margin-bottom: 1rem;
-  color: #f5f5f5;
+  color: #ffffff;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  letter-spacing: 0.5px;
+  transition: color 0.3s ease;
 }
 
-
+/* Efeito ao passar o mouse */
+header h1:hover {
+  color: #e0e0e0;
+}
 
 
 header form {
   margin-left: auto;
 }
 
-/* 🔹 Botões do cabeçalho */
-.botoes-header {
-  display: flex;
-  justify-content: flex-end;
-  gap: 16px;
-  margin-top: 10px;
-}
 
-/* 🔹 Botões laterais */
-.botoes-esquerda {
-  display: flex;
-  justify-content: flex-start;
-  gap: 12px;
-  margin: 20px 0 0 20px;
-}
 
 /* 🔹 Botões principais (mensagens e logout) */
-.botao-mensagens,
+/*.botao-mensagens,
 .botao-logout {
   background: linear-gradient(135deg, #0f0f0f, #d85f07);
   color: #fff;
@@ -160,9 +153,6 @@ header form {
 .botao-esquerda:hover i {
   transform: scale(1.2);
 }
-
-
-
 
 
 /* 🔹 Carrossel de integrantes */
@@ -376,21 +366,23 @@ header form {
   transition: background-color 0.3s;
 }
 
-#btnMinimizarEscala {
-  display: block;
-  margin: 25px auto 10px;
-  padding: 10px 16px;
-  background-color: #520f79;
-  color: #f4f5f7;
-  font-weight: bold;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.3s ease-in-out;
+#btnMinimizarEscala,
+#btnImprimirEscala {
+  background-color: #391338;
+  color: #f0f1f3;
+  border: 2px solid #0c0c0c;
+  border-radius: 10px; /* valor ajustável para arredondamento */
+  font-size: 1rem;     /* opcional: ajusta o tamanho da fonte */
 }
 
 #btnMinimizarEscala:hover {
-    background-color: #1273b4;
+  background-color: #520f79;
+  transform: scale(1.05);
+}
+
+#btnImprimirEscala:hover {
+  background-color: #520f79;
+  transform: scale(1.05);
 }
 
 /* 🔹 Área de músicas */
@@ -667,10 +659,15 @@ header form {
   }
 }
 
-#btnAbrirMensagens {
-  background-color: #391338;
-  color: #f0f1f3;
-  border: 2px solid #eeeff1;
+#btnAbrirMensagens,
+form button {
+  min-width: 180px;
+  font-size: 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  color: #520f79;
+  border: 2px solid #ecebeb
+
 }
 
 #btnAbrirMensagens:hover {
@@ -698,22 +695,75 @@ form button[type="submit"] {
 }
 
 #btnImprimirMusicas {
-  background-color: #520f79;
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  font-size: 1rem;
-  font-weight: 500;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
+  background-color: #391338;
+  color: #f0f1f3;
+  border: 2px solid #0c0c0c;
+  border-radius: 10px; /* valor ajustável para arredondamento */
+  font-size: 1rem;     /* opcional: ajusta o tamanho da fonte */
 }
 
+
 #btnImprimirMusicas:hover {
-  background-color: #138496;
+  background-color: #0a0a0a;
   transform: scale(1.05);
 }
+
+.imprimir-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 30px 0;
+}
+
+.logo-central {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.logo-central img {
+  max-width: 140px;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.logo-central img:hover {
+  transform: scale(1.05);
+}
+
+.titulo-usuario {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-top: 12px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  letter-spacing: 0.5px;
+}
+
+/* Responsivo para telas menores */
+@media (max-width: 576px) {
+  .logo-central img {
+    max-width: 100px;
+  }
+
+  .titulo-usuario {
+    font-size: 1.2rem;
+  }
+}
+
+header form button {
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  #btnAbrirMensagens,
+  form button {
+    width: 100%;
+    max-width: 240px;
+    margin: 0 auto;
+  }
+}
+
+

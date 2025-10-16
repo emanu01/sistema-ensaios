@@ -16,91 +16,103 @@
 <body>
 
 <header class="container-fluid bg-light py-3 text-center">
-  <h1 class="mb-3">Bem-vindo, {{ current_user.nome }}!</h1>
-  <div class="d-flex justify-content-center flex-wrap gap-2">
-    <button id="btnAbrirMensagens" class="btn btn-outline-primary">
-      <i class="fa-solid fa-envelope-open-text"></i> Ver mensagens
-    </button>
-    <form action="{{ url_for('logout') }}" method="POST">
-      <button type="submit" class="btn btn-outline-danger">
-        <i class="fa-solid fa-right-from-bracket"></i> Sair
+  <div class="logo-central mb-3">
+    <img src="{{ url_for('static', filename='imagens/logo.png') }}" alt="Logo_Play_Repertório" />
+    <h1 class="mb-3 fs-4 fs-md-3">Bem-vindo, {{ current_user.nome }}!</h1>
+  </div>
+
+  <div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-2">
+    <div>
+      <button id="btnAbrirMensagens" class="btn btn-outline-primary">
+        <i class="fa-solid fa-envelope-open-text"></i> Ver mensagens
       </button>
-    </form>
+    </div>
+    <div>
+      <form action="{{ url_for('logout') }}" method="POST">
+        <button type="submit" class="btn btn-outline-danger">
+          <i class="fa-solid fa-right-from-bracket"></i> Sair
+        </button>
+      </form>
+    </div>
   </div>
 </header>
 
 <div class="container my-4">
-  <div class="d-flex flex-wrap justify-content-center gap-3 mb-4">
-    <button id="btnAbrirCalendario" class="btn btn-outline-secondary">
+  <button id="btnToggleMenu" class="btn btn-outline-light mb-3">
+    <i class="fa-solid fa-bars"></i> Abrir menu
+  </button>
+
+  <div id="menuAcoes" style="display: none;" class="d-flex flex-column gap-3 mb-4 w-100">
+    <button id="btnAbrirCalendario" class="btn btn-outline-secondary w-100" style="display: none;">
       <i class="fa-solid fa-calendar-days"></i> Ver ensaios
     </button>
-    <button id="btnVerCultos" class="btn btn-outline-secondary">
+
+    <button id="btnVerCultos" class="btn btn-outline-secondary w-100" style="display: none;">
       <i class="fa-solid fa-book-open"></i> Escala de cultos
     </button>
-    <button id="btnMostrarMusicas" class="btn btn-outline-secondary">
+
+    <button id="btnMostrarMusicas" class="btn btn-outline-secondary w-100" style="display: none;">
       <i class="fa-solid fa-music"></i> Músicas para ensaio
     </button>
   </div>
+</div>
 
-  <div id="cardCalendario" class="card p-4 mb-4" style="display: none;">
-    <h2 class="mb-3">Selecione uma Data</h2>
-    <input type="date" id="calendarioData" class="form-control mb-3">
-    <div class="d-flex flex-wrap gap-2">
-      <button id="btnBuscarEscala" class="btn btn-success">
-        <i class="fa-solid fa-check"></i> Exibir Escala
-      </button>
-      <button id="btnFecharCalendario" class="btn btn-danger">
-        <i class="fa-solid fa-times"></i> Fechar
-      </button>
-    </div>
+<!-- Calendário escondido -->
+<div id="cardCalendario" class="card p-4 mb-4" style="display: none;">
+  <h2>📅 Selecione uma data para ver a escala</h2>
+  <input type="date" id="calendarioData" class="form-control mb-3">
+  <div class="d-flex justify-content-center gap-3">
+    <button id="btnBuscarEscala" class="btn btn-success">🔍 Buscar Escala</button>
+    <button id="btnFecharCalendario" class="btn btn-danger">❌ Fechar</button>
   </div>
+</div>
 
-  <main id="areaEscalas" class="card p-4 mb-4" style="display: none;">
-    <h2>Escalados para ensaio <span id="dataSelecionada"></span></h2>
-    <div class="table-responsive">
-      <table class="table table-bordered table-striped">
-        <thead>
-          <tr>
-            <th>Componente</th>
-            <th>Horário</th>
-            <th>Data</th>
-          </tr>
-        </thead>
-        <tbody id="tabelaEscalas"></tbody>
-      </table>
-    </div>
-    <div class="d-flex flex-wrap gap-2 mt-3">
-      <button id="btnMinimizarEscala" class="btn btn-warning">🔽 Minimizar Escala</button>
-      <button onclick="imprimirEscala()" class="btn btn-info">🖨️ Imprimir Escala</button>
-    </div>
-  </main>
-
-  <div id="areaMusicas" class="card p-4 mb-4" style="display: none;">
-    <h2>Músicas Adicionadas pelos Cantores</h2>
-
-    <div class="table-responsive">
-      <table class="table table-bordered table-striped">
-        <thead>
-          <tr>
-            <th>Título</th>
-            <th>Autor</th>
-            <th>Gênero</th>
-            <th>Tom</th>
-            <th>Cantor</th>
-            <th>Status</th>
-            <th>Data de Ensaio</th>
-          </tr>
-        </thead>
-        <tbody id="tabelaMusicas"></tbody>
-      </table>
-    </div>
-    <button id="btnImprimirMusicas" onclick="abrirPaginaDeImpressao()">🖨️ Imprimir Músicas</button>
+<main id="areaEscalas" class="card p-4 mb-4" style="display: none;">
+  <h2>Escalados para ensaio <span id="dataSelecionada"></span></h2>
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Componente</th>
+          <th>Horário</th>
+          <th>Data</th>
+        </tr>
+      </thead>
+      <tbody id="tabelaEscalas"></tbody>
+    </table>
   </div>
-
-  <div id="areaCultos" class="card p-4 mb-4" style="display: none;">
-    <h2>📖 Cultos Agendados</h2>
-    <div id="cartoesCultos" class="cartoes-container"></div>
+  <div class="d-flex justify-content-center flex-wrap gap-3 mt-3">
+    <button id="btnMinimizarEscala" class="btn btn-warning">🔽 Minimizar Escala</button>
+    <button id="btnImprimirEscala" onclick="imprimirEscala()" class="btn btn-info">🖨️ Imprimir Escala</button>
   </div>
+</main>
+
+<div id="areaMusicas" class="card p-4 mb-4" style="display: none;">
+  <h2>Músicas Adicionadas pelos Cantores</h2>
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Título</th>
+          <th>Autor</th>
+          <th>Gênero</th>
+          <th>Tom</th>
+          <th>Cantor</th>
+          <th>Status</th>
+          <th>Data de Ensaio</th>
+        </tr>
+      </thead>
+      <tbody id="tabelaMusicas"></tbody>
+    </table>
+  </div>
+  <div class="text-center my-3">
+    <button id="btnImprimirMusicas" onclick="abrirPaginaDeImpressao()" class="btn btn-info">🖨️ Imprimir Músicas</button>
+  </div>
+</div>
+
+<div id="areaCultos" class="card p-4 mb-4" style="display: none;">
+  <h2>📖 Cultos Agendados</h2>
+  <div id="cartoesCultos" class="cartoes-container"></div>
 </div>
 
 <div class="container my-4">
@@ -117,6 +129,7 @@
   </div>
 </div>
 
+<!-- Modal de mensagens -->
 <div id="modalMensagens" class="modal fade" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content p-4">
@@ -130,8 +143,12 @@
     </div>
   </div>
 </div>
+
+<!-- Scripts externos -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
+<!-- Funções de impressão -->
 <script>
   function exportarEscalaPDF() {
     const bloco = document.getElementById('areaEscalas');
@@ -304,7 +321,7 @@
             </tbody>
           </table>
           <footer style="margin-top: 40px; text-align: center; font-size: 14px; color: #555;">
-            Gerado por <strong>Repertório Online</strong>
+            Gerado por <strong>Repertório Play</strong>
           </footer>
           <script>
             window.onload = function() {
@@ -318,49 +335,64 @@
   }
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
 <script>
 document.addEventListener("DOMContentLoaded", function () {
+  function safeClick(id, callback) {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener("click", callback);
+  }
 
-function carregarMensagens() {
-  fetch("/mensagens")
-    .then(res => res.json())
-    .then(mensagens => {
-      const lista = document.getElementById("listaMensagens");
-      lista.innerHTML = "";
+  // Abrir/Fechar menu
+  safeClick("btnToggleMenu", () => {
+    const btnAbrirCalendario = document.getElementById("btnAbrirCalendario");
+    const btnVerCultos = document.getElementById("btnVerCultos");
+    const btnMostrarMusicas = document.getElementById("btnMostrarMusicas");
+    const btnToggleMenu = document.getElementById("btnToggleMenu");
 
-      if (!mensagens.length) {
-        lista.innerHTML = `<div class="mensagem"><strong>Sistema:</strong><br><small>📭 Nenhuma mensagem encontrada.</small></div>`;
-        return;
-      }
+    if (!btnAbrirCalendario || !btnVerCultos || !btnMostrarMusicas || !btnToggleMenu) return;
 
-      mensagens.forEach(msg => {
-        lista.innerHTML += `
-          <div class="mensagem">
-            <strong>${msg.autor}</strong><br>
-            <small>${msg.conteudo}</small><br>
-            <small><em>${msg.data}</em></small>
-          </div>
-        `;
-      });
+    const visivel = btnAbrirCalendario.style.display !== "none";
+    const novoDisplay = visivel ? "none" : "inline-block";
 
-      // Rolagem automática para a última mensagem
-      lista.scrollTop = lista.scrollHeight;
-    });
-}
+    btnAbrirCalendario.style.display = novoDisplay;
+    btnVerCultos.style.display = novoDisplay;
+    btnMostrarMusicas.style.display = novoDisplay;
 
-  document.getElementById("btnAbrirMensagens").addEventListener("click", () => {
-    const modal = new bootstrap.Modal(document.getElementById("modalMensagens"));
-    modal.show();
-    carregarMensagens();
+    btnToggleMenu.innerHTML = visivel
+      ? '<i class="fa-solid fa-bars"></i> Abrir menu'
+      : '<i class="fa-solid fa-xmark"></i> Fechar menu';
   });
 
-  document.getElementById("btnEnviarMensagem").onclick = () => {
+  // Abrir modal de mensagens
+  safeClick("btnAbrirMensagens", () => {
+    const modal = new bootstrap.Modal(document.getElementById("modalMensagens"));
+    modal.show();
+    fetch("/mensagens")
+      .then(res => res.json())
+      .then(mensagens => {
+        const lista = document.getElementById("listaMensagens");
+        lista.innerHTML = "";
+        if (!mensagens.length) {
+          lista.innerHTML = `<div class="mensagem"><strong>Sistema:</strong><br><small>📭 Nenhuma mensagem encontrada.</small></div>`;
+          return;
+        }
+        mensagens.forEach(msg => {
+          lista.innerHTML += `
+            <div class="mensagem">
+              <strong>${msg.autor}</strong><br>
+              <small>${msg.conteudo}</small><br>
+              <small><em>${msg.data}</em></small>
+            </div>
+          `;
+        });
+        lista.scrollTop = lista.scrollHeight;
+      });
+  });
+
+  // Enviar mensagem
+  safeClick("btnEnviarMensagem", () => {
     const conteudo = document.getElementById("novaMensagem").value.trim();
     if (!conteudo) return alert("⚠️ Digite uma mensagem antes de enviar!");
-
     fetch("/enviar_mensagem", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -369,58 +401,67 @@ function carregarMensagens() {
       if (res.ok) {
         document.getElementById("novaMensagem").value = "";
         alert("✅ Mensagem enviada com sucesso!");
-        carregarMensagens();
-
         const modal = bootstrap.Modal.getInstance(document.getElementById("modalMensagens"));
         if (modal) modal.hide();
       } else {
         alert("❌ Erro ao enviar mensagem.");
       }
     });
-  };
+  });
 
-  document.getElementById("btnAbrirCalendario").onclick = () =>
-    document.getElementById("cardCalendario").style.display = "block";
+  // Ver ensaios (abrir calendário)
+  safeClick("btnAbrirCalendario", () => {
+    const card = document.getElementById("cardCalendario");
+    if (card) card.style.display = "block";
+  });
 
-  document.getElementById("btnFecharCalendario").onclick = () =>
-    document.getElementById("cardCalendario").style.display = "none";
+  // Fechar calendário
+  safeClick("btnFecharCalendario", () => {
+    const card = document.getElementById("cardCalendario");
+    if (card) card.style.display = "none";
+  });
 
-  document.getElementById("btnBuscarEscala").onclick = () => {
-    const data = document.getElementById("calendarioData").value;
+  // Buscar escala
+  safeClick("btnBuscarEscala", () => {
+    const data = document.getElementById("calendarioData")?.value;
     if (!data) return alert("⚠️ Selecione uma data antes de buscar!");
-
     fetch(`/obter_escalas_por_data?data=${data}`)
       .then(res => res.json())
       .then(data => {
         const tabela = document.getElementById("tabelaEscalas");
+        if (!tabela) return;
         tabela.innerHTML = "";
-        if (!data.escalas || data.escalas.length === 0) {
+        if (!data.escalas?.length) {
           tabela.innerHTML = `<tr><td colspan="3">📌 Nenhuma escala encontrada para esta data.</td></tr>`;
         } else {
           data.escalas.forEach(e => {
             tabela.innerHTML += `<tr><td>${e.componente}</td><td>${e.horario}</td><td>${e.dia}</td></tr>`;
           });
         }
-
-        document.getElementById("dataSelecionada").textContent = data.data || data.dia || data;
+        document.getElementById("dataSelecionada").textContent = data.data_formatada || "";
         document.getElementById("areaEscalas").style.display = "block";
         document.getElementById("cardCalendario").style.display = "none";
       });
-  };
+  });
 
-  document.getElementById("btnMinimizarEscala").onclick = () => {
+  // Minimizar escala
+  safeClick("btnMinimizarEscala", () => {
     const area = document.getElementById("areaEscalas");
-    area.style.display = area.style.display === "block" ? "none" : "block";
-  };
+    if (area) area.style.display = area.style.display === "block" ? "none" : "block";
+  });
 
-  document.getElementById("btnMostrarMusicas").onclick = () => {
+  // Mostrar músicas
+  safeClick("btnMostrarMusicas", () => {
     const area = document.getElementById("areaMusicas");
-    if (area.style.display === "none" || area.style.display === "") {
-      area.style.display = "block";
-      fetch(`/obter_musicas`)
+    if (!area) return;
+    const visivel = area.style.display === "block";
+    area.style.display = visivel ? "none" : "block";
+    if (!visivel) {
+      fetch("/obter_musicas")
         .then(res => res.json())
         .then(data => {
           const tabela = document.getElementById("tabelaMusicas");
+          if (!tabela) return;
           tabela.innerHTML = data.musicas.map(m => `
             <tr>
               <td>${m.titulo}</td>
@@ -432,18 +473,19 @@ function carregarMensagens() {
               <td>${m.data_ensaio}</td>
             </tr>`).join("");
         });
-    } else {
-      area.style.display = "none";
     }
-  };
+  });
 
-  document.getElementById("btnVerCultos").addEventListener("click", () => {
+  // Ver cultos
+  safeClick("btnVerCultos", () => {
     const container = document.getElementById("areaCultos");
+    if (!container) return;
     const visivel = container.style.display === "block";
     container.style.display = visivel ? "none" : "block";
     if (visivel) return;
 
     const cartoes = document.getElementById("cartoesCultos");
+    if (!cartoes) return;
     cartoes.innerHTML = "";
 
     fetch("/cultos_usuario")
@@ -453,13 +495,11 @@ function carregarMensagens() {
           cartoes.innerHTML = "<p style='text-align:center;'>📭 Nenhum culto encontrado.</p>";
           return;
         }
-
         cultos.forEach(culto => {
           const musicas = culto.musicas.map(m => `<span class="tag">${m.titulo} (${m.tom})</span>`).join(" ");
           const escala = culto.escala.length
             ? culto.escala.map(e => `<li>${e}</li>`).join("")
             : "<li><em>Sem escala</em></li>";
-
           const card = document.createElement("div");
           card.className = "cartao-culto";
           card.innerHTML = `
@@ -472,9 +512,7 @@ function carregarMensagens() {
         });
       });
   });
-
 });
 </script>
-
 </body>
 </html>
