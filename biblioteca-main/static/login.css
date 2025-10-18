@@ -5,20 +5,19 @@ body {
   background-color: #000;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(to bottom,#1a001f,#391338);
+  background: linear-gradient(to bottom,#1a001f,rgb(172, 45, 236));
 }
 
 
 
 .form-container {
-    background-color: rgba(247, 245, 245, 0.904);
+    background-color: rgba(253, 253, 253, 0);
     padding: 30px;
     width: 100%;
     max-width: 450px;
     margin: auto;
     text-align: center;
-    border-radius: 8px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+
 }
 
 label {
@@ -60,7 +59,7 @@ input {
     margin-top: 15px;
     padding: 12px;
     font-size: 1rem;
-    background-color: #0a0a0a;
+    background-color: #cf0f0f;
     color: white;
     border-radius: 5px;
     cursor: pointer;
@@ -213,7 +212,7 @@ input {
 }
 
 .link-recuperar {
-    color: #007BFF;
+    color: #fafbfc;
     text-decoration: none;
     font-size: 15px;
 }
@@ -259,23 +258,10 @@ input {
   }
 }
 
-@keyframes brilho-pulsante {
-  0% {
-    filter: brightness(0.8) contrast(2.1);
-    box-shadow: 0 0 10px rgba(182, 149, 192, 0.3);
-  }
-  50% {
-    filter: brightness(1) contrast(2.3);
-    box-shadow: 0 0 20px rgba(182, 149, 192, 0.6);
-  }
-  100% {
-    filter: brightness(0.8) contrast(2.1);
-    box-shadow: 0 0 10px rgba(182, 149, 192, 0.3);
-  }
-}
+
 
 .logo-central img {
-  max-width: 250px;
+  max-width: 300px;
   height: auto;
   display: block;
   margin: 0 auto;
@@ -287,10 +273,8 @@ input {
 .logo-central {
   background-color: transparent;
   padding: 20px;
-  border-radius: 12px;
   display: inline-block;
   margin: 0 auto;
-  box-shadow: 0 0 12px rgba(182, 149, 192, 0.2); /* sombra lilás bem suave */
 }
 
 .form-container {

@@ -6,7 +6,7 @@ body {
   text-align: center;
   padding: 20px;
   position: relative;
-  background: linear-gradient(to bottom,#1a001f,#391338);
+  background: linear-gradient(to bottom,#1a001f,rgb(172, 45, 236));
   padding-bottom: 80px; /* espaço para rodapé */
 }
 
@@ -580,7 +580,7 @@ header form {
   background-color: #f1f1f1;
   font-size: 14px;
   line-height: 1.4;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  box-shadow: 0 1px 4px rgba(245, 243, 243, 0.08);
 }
 
 /* Nome do autor em destaque */
@@ -665,8 +665,9 @@ form button {
   font-size: 1rem;
   border-radius: 8px;
   transition: all 0.3s ease;
-  color: #520f79;
-  border: 2px solid #ecebeb
+  color: #030303;
+  border: 2px solid #ecebeb;
+  background-color: #f5f4f4;
 
 }
 

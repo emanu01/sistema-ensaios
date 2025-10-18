@@ -1,6 +1,6 @@
 body {
     font-family: 'Arial', sans-serif;
-    background: linear-gradient(to bottom,#1a001f,#39133881);
+    background: linear-gradient(to bottom,#1a001f,rgb(172, 45, 236));
     color: white;
     text-align: center;
     padding: 40px;
@@ -39,7 +39,7 @@ input {
     font-size: 1rem;
     cursor: pointer;
     transition: transform 0.3s;
-    background-color: #8231b1; /* 🔹 Azul padrão */
+    background-color: rgb(172, 45, 236); 
     color: rgb(233, 233, 233);
     border-radius: 5px;
     border: none;
@@ -126,24 +126,24 @@ p {
   z-index: -1;
 }*/
 
-h1 {
-  font-family: 'Playfair Display', serif; /* fonte artística */
+/*h1 {
+  font-family: 'Playfair Display', serif; /* fonte artística 
   font-size: 2.8rem;
   color: #e2e2e2;
-  background-color: #0c0c0c;
+  background-color: #f1efef;
   padding: 12px 24px;
   border-radius: 8px;
 
   text-shadow:
-    -1px -1px 0 #dfdada,   /* canto superior esquerdo */
-     1px -1px 0 #f5f3f3,   /* canto superior direito */
-    -1px  1px 0 #f5f3f3,   /* canto inferior esquerdo */
-     1px  1px 0 #f1eeee,   /* canto inferior direito */
-     0 0 12px rgba(150, 8, 95, 0.4); /* brilho lilás suave */
+    -1px -1px 0 #dfdada,   /* canto superior esquerdo 
+     1px -1px 0 #f5f3f3,   /* canto superior direito 
+    -1px  1px 0 #f5f3f3,   /* canto inferior esquerdo 
+     1px  1px 0 #f1eeee,   /* canto inferior direito 
+     0 0 12px rgba(150, 8, 95, 0.4); /* brilho lilás suave 
   
   text-align: center;
   margin-bottom: 20px;
-}
+}*/
 
 .modal {
   position: fixed;
@@ -289,7 +289,7 @@ form select:focus {
 }
 
 .logo-central img {
-  max-width: 250px;
+  max-width: 300px;
   height: auto;
   display: block;
   margin: 0 auto;
@@ -297,6 +297,7 @@ form select:focus {
   transition: transform 0.3s ease, filter 0.3s ease;
   animation: brilho-pulsante 2s infinite;
   filter: brightness(0.8) contrast(2.1);
+  padding: 10px;
 }
 
 

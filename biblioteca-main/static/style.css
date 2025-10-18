@@ -11,7 +11,7 @@ body {
   background-color: #000;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(to bottom,#1a001f,#391338);
+  background: linear-gradient(to bottom,#1a001f,rgb(172, 45, 236));
 }
 
 /*body::before {
@@ -51,7 +51,7 @@ header {
 
 .botao-estilizado {
   padding: 10px 16px;
-  background-color: #8231b1;
+  background-color: rgb(172, 45, 236);
   color: white;
   border: none;
   border-radius: 8px;
@@ -66,26 +66,20 @@ header {
 
 /* Conteúdo central */
 .conteudo-central {
-  text-align: center;
-  background-color: rgba(240, 238, 238, 0.932);
+  text-align: center; 
   padding: 25px;
   border-radius: 12px;
-  color: rgb(7, 7, 7);
+  color: rgb(250, 248, 248);
   max-width: 600px;
   margin: auto;
-  box-shadow: 0 0 20px rgba(0,0,0,0.3);
   font-family: 'Poppins', sans-serif;
-  border: 2px solid #960ecc;
-  outline: 2px solid #080808; /* tom mais escuro da paleta */
-  outline-offset: 4px;
-  border-radius: 12px;
 }
 
 .botao-acao {
   display: inline-block;
-  margin-top: 20px;
+  margin-top: 60px;
   padding: 12px 24px;
-  background-color: #8231b1;
+  background-color: rgb(172, 45, 236);
   color: white;
   text-decoration: none;
   border-radius: 8px;
@@ -178,7 +172,7 @@ footer {
 
 
 .logo-central img {
-  max-width: 250px;
+  max-width: 400px;
   height: auto;
   filter: brightness(0.8) contrast(2.1);
   transform: perspective(800px) rotateX(2deg);
@@ -204,7 +198,7 @@ h1 {
 
 .header-esquerda h1 {
   font-family: 'Montserrat', sans-serif; /* ou outra fonte que preferir */
-  font-size: 30px;
+  font-size: 20px;
   font-weight: 600;
   color: #f0eff0; /* lilás vibrante da paleta */
 }
