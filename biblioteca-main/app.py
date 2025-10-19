@@ -43,6 +43,7 @@ class Usuario(UserMixin, db.Model):
     pergunta_seguranca = db.Column(db.String(200), nullable=False)
     resposta_seguranca = db.Column(db.String(200), nullable=False)
 
+    status = db.Column(db.String(20), nullable=False, default="pendente")
 
 
 class Music(db.Model):
@@ -131,6 +132,12 @@ def login():
         user = Usuario.query.filter_by(username=username).first()
 
         if user and bcrypt.check_password_hash(user.password, password.decode('utf-8')):
+
+            # 🔒 Verifica se o usuário foi aprovado
+            if user.status != "aprovado":
+                flash("⚠️ Sua conta ainda não foi aprovada pelo administrador.", "warning")
+                return redirect(url_for("login"))
+
             login_user(user)
             session['login_sucesso'] = True  
 
@@ -854,6 +861,41 @@ def exportar_musicas_pdf():
     response.headers['Content-Disposition'] = 'inline; filename=musicas_filtradas.pdf'
     return response
 
+@app.route('/listar_solicitacoes')
+@login_required
+def listar_solicitacoes():
+    if current_user.role != "admin":
+        abort(403)
+    pendentes = Usuario.query.filter_by(status="pendente").all()
+    return jsonify([{
+        "id": u.id,
+        "nome": u.nome,
+        "sobrenome": u.sobrenome,
+        "telefone": u.telefone,
+        "username": u.username
+    } for u in pendentes])
+    
+
+@app.route('/aprovar_usuario/<int:user_id>', methods=['POST'])
+@login_required
+def aprovar_usuario(user_id):
+    if current_user.role != "admin":
+        abort(403)
+    usuario = Usuario.query.get_or_404(user_id)
+    usuario.status = "aprovado"
+    db.session.commit()
+    return jsonify({"status": "aprovado"})
+
+
+@app.route('/recusar_usuario/<int:user_id>', methods=['POST'])
+@login_required
+def recusar_usuario(user_id):
+    if current_user.role != "admin":
+        abort(403)
+    usuario = Usuario.query.get_or_404(user_id)
+    usuario.status = "recusado"
+    db.session.commit()
+    return jsonify({"status": "recusado"})
 
 
 

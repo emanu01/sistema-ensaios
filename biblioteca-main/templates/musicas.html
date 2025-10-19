@@ -50,9 +50,15 @@
     {% if current_user.role == "admin" %}
     <a href="{{ url_for('gerenciar_usuarios') }}" class="botao-gerenciar"><i class="fa-solid fa-users"></i> Gerenciar Usuários</a>
     {% endif %}
+    {% if current_user.role == "admin" %}
+      <button id="btnAbrirSolicitacoes" class="botao-gerenciar" style="background-color: #f39c12;">
+        👥 Ver solicitações de cadastro
+      </button>
+      <div id="areaSolicitacoes" style="display:none; margin-top: 20px;"></div>
+    {% endif %}
     <a href="{{ url_for('cultos') }}" class="botao-ver-cultos">📖 Ver Cultos Agendados</a>
     <button id="btnAbrirMensagens" class="botao-mensagens">💬 Mensagens</button>
-    <a href="{{ url_for('logout') }}" class="botao-sair"><i class="fas fa-sign-out-alt"></i> Sair</a>
+    <a href="{{ url_for('logout') }}" class="botao-sair"><i class="fas fa-sign-out-alt"></i> Sair</a> 
   </div>
 
 
@@ -73,6 +79,17 @@
 
       <textarea id="novaMensagem" placeholder="Digite sua mensagem..."></textarea>
       <button id="btnEnviarMensagem">✉️ Enviar</button>
+    </div>
+  </div>
+
+  <!-- Modal de Solicitações de Cadastro -->
+  <div id="modalSolicitacoes" class="modal-solicitacoes" style="display:none;">
+    <div class="modal-content">
+      <span class="close" id="fecharSolicitacoes">&times;</span>
+      <h3>Solicitações de Cadastro</h3>
+      <div id="listaSolicitacoes">
+        <p>🔄 Carregando solicitações...</p>
+      </div>
     </div>
   </div>
 
@@ -555,6 +572,59 @@
         blocoAEnsaiar.appendChild(novoCard);
       }
     }
+    </script>
+
+    <script>
+        document.getElementById("btnAbrirSolicitacoes")?.addEventListener("click", () => {
+          const modal = document.getElementById("modalSolicitacoes");
+          const lista = document.getElementById("listaSolicitacoes");
+          modal.style.display = "flex";
+          lista.innerHTML = "<p>🔄 Carregando solicitações...</p>";
+
+          fetch("/listar_solicitacoes")
+            .then(res => res.json())
+            .then(listaUsuarios => {
+              if (!listaUsuarios.length) {
+                lista.innerHTML = "<p>📭 Nenhuma solicitação pendente.</p>";
+                return;
+              }
+
+              lista.innerHTML = "";
+              listaUsuarios.forEach(u => {
+                lista.innerHTML += `
+                  <div class="card p-3 mb-2" style="border: 1px solid #ccc; border-radius: 8px; padding: 10px;">
+                    <strong>${u.nome} ${u.sobrenome}</strong> (${u.username})<br>
+                    <small>Telefone: ${u.telefone}</small><br>
+                    <button onclick="aprovar(${u.id})" class="btn btn-success mt-2">✅ Aprovar</button>
+                    <button onclick="recusar(${u.id})" class="btn btn-danger mt-2">❌ Recusar</button>
+                  </div>
+                `;
+              });
+            });
+        });
+
+        document.getElementById("fecharSolicitacoes").addEventListener("click", () => {
+          document.getElementById("modalSolicitacoes").style.display = "none";
+        });
+
+        function aprovar(id) {
+          fetch(`/aprovar_usuario/${id}`, { method: "POST" })
+            .then(res => res.json())
+            .then(() => {
+              alert("✅ Solicitação aprovada!");
+              document.getElementById("btnAbrirSolicitacoes").click(); // recarrega
+            });
+        }
+
+        function recusar(id) {
+          if (!confirm("Tem certeza que deseja recusar esta solicitação?")) return;
+          fetch(`/recusar_usuario/${id}`, { method: "POST" })
+            .then(res => res.json())
+            .then(() => {
+              alert("❌ Solicitação recusada.");
+              document.getElementById("btnAbrirSolicitacoes").click(); // recarrega
+            });
+        }
     </script>
 
     
