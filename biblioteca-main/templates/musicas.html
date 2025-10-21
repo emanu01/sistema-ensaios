@@ -40,25 +40,24 @@
 </head>
 <body>
 
-
+  <button class="botao-fechar-sessao" onclick="window.location.href='{{ url_for('logout') }}'" title="Sair">
+    &times;
+  </button>
+  
   <header>
-    <h1 class="efeito-aproximacao">🎶 Olá, Bem-vindo(a) {{ current_user.username }}</h1>
+    <div class="logo-central mb-3">
+      <img src="{{ url_for('static', filename='imagens/logo.png') }}" alt="Logo_Play_Repertório" />
+      <h1 class="mb-3 fs-4 fs-md-3">Bem-vindo, {{ current_user.nome }}!</h1>
+    </div>
   </header>
 
   <div class="botoes-wrapper">
-    <a href="{{ url_for('escala') }}" class="botao-escala"><i class="fa-solid fa-calendar-alt"></i> Ir para Escalas</a>
-    {% if current_user.role == "admin" %}
-    <a href="{{ url_for('gerenciar_usuarios') }}" class="botao-gerenciar"><i class="fa-solid fa-users"></i> Gerenciar Usuários</a>
-    {% endif %}
-    {% if current_user.role == "admin" %}
-      <button id="btnAbrirSolicitacoes" class="botao-gerenciar" style="background-color: #f39c12;">
-        👥 Ver solicitações de cadastro
-      </button>
-      <div id="areaSolicitacoes" style="display:none; margin-top: 20px;"></div>
-    {% endif %}
-    <a href="{{ url_for('cultos') }}" class="botao-ver-cultos">📖 Ver Cultos Agendados</a>
-    <button id="btnAbrirMensagens" class="botao-mensagens">💬 Mensagens</button>
-    <a href="{{ url_for('logout') }}" class="botao-sair"><i class="fas fa-sign-out-alt"></i> Sair</a> 
+    <a href="{{ url_for('escala') }}" class="botao-padrao"><i class="fa-solid fa-calendar-alt"></i> Ir para Escalas</a>
+    <a href="{{ url_for('gerenciar_usuarios') }}" class="botao-padrao"><i class="fa-solid fa-users"></i> Gerenciar Usuários</a>
+    <button id="btnAbrirSolicitacoes" class="botao-padrao">👥 Ver solicitações de cadastro</button>
+    <a href="{{ url_for('cultos') }}" class="botao-padrao">📖 Ver Cultos Agendados</a>
+    <button onclick="imprimirMusicas()" type="button" class="botao-padrao">🖨️ Imprimir Músicas</button>
+    <button id="btnAbrirMensagens" class="botao-padrao">💬 Mensagens</button>
   </div>
 
 
@@ -252,11 +251,9 @@
     </div>
   </div>
 
-      <div style="margin-top: 20px;">
-        <button onclick="imprimirMusicas()" type="button" class="botao-imprimir">🖨️ Imprimir Músicas</button>
-      </div>
-    </div>
-  </div>
+
+      
+  
   <script>
     let musicaSelecionada = null;
 
@@ -515,15 +512,7 @@
       </div>
     </div>
 
-  <footer class="rodape">
-    <p>Sistema de Acompanhamento de Ensaios — Desenvolvido por Emanuel</p>
-    <p>&copy; {{ current_year }} Todos os direitos reservados.</p>
-    <div class="icones-sociais">
-      <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
-      <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
-      <a href="https://www.youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
-    </div>
-  </footer>
+
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         const abrirBtn = document.getElementById("btnAbrirModalAdicionarMusica");
