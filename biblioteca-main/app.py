@@ -39,11 +39,11 @@ class Usuario(UserMixin, db.Model):
     username = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(128), nullable=False)
     role = db.Column(db.String(20), nullable=False, default="membro")
-    
     pergunta_seguranca = db.Column(db.String(200), nullable=False)
     resposta_seguranca = db.Column(db.String(200), nullable=False)
-
     status = db.Column(db.String(20), nullable=False, default="pendente")
+    data_nascimento = db.Column(db.Date, nullable=False)
+    
 
 
 class Music(db.Model):
@@ -163,6 +163,7 @@ def register():
         telefone = request.form['telefone']
         username = request.form['username']
         password = bcrypt.generate_password_hash(request.form['password']).decode('utf-8')
+        data_nascimento = datetime.strptime(request.form['data_nascimento'], "%Y-%m-%d").date()
 
         # 🛡️ Novos campos de segurança
         pergunta = request.form['pergunta_seguranca']
@@ -185,12 +186,13 @@ def register():
             password=password,
             role="membro",
             pergunta_seguranca=pergunta,
-            resposta_seguranca=resposta
+            resposta_seguranca=resposta,
+            data_nascimento=data_nascimento
         )
 
         db.session.add(novo_usuario)
         db.session.commit()
-        flash("✅ Conta criada com sucesso! Faça login.", "success")
+        flash("✅ Cadastro enviado! Aguarde a aprovação de um administrador.", "info")
         return redirect(url_for('login'))
 
     return render_template('register.html')

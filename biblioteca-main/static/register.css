@@ -301,3 +301,36 @@ form select:focus {
 }
 
 
+.alerta-cadastro {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-weight: bold;
+  z-index: 9999;
+  animation: fadeOut 5s forwards;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* Estilos por categoria */
+.alerta-cadastro.success {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.alerta-cadastro.warning {
+  background-color: #ff9800;
+  color: #fff;
+}
+
+.alerta-cadastro.danger {
+  background-color: #f44336;
+  color: #fff;
+}
+
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; display: none; }
+}

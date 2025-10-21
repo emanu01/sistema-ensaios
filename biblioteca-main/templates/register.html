@@ -11,6 +11,15 @@
 </head>
 
 <body>
+  
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alerta-cadastro {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
   <header class="text-center mt-4">
     <h1 class="efeito-aproximacao"> </h1>
   </header>
@@ -45,6 +54,11 @@
           <div class="mb-3">
             <label for="telefone">Número de telefone:</label>
             <input type="tel" id="telefone" name="telefone" pattern="[0-9]{10,11}" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="data_nascimento">Data de Nascimento:</label>
+            <input type="date" id="data_nascimento" name="data_nascimento" required>
           </div>
 
           <div class="mb-3">
