@@ -11,30 +11,36 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
   <style>
-    @media print {
-      .botao-voltar,
-      .botao-adicionar,
-      .acoes,
-      .botao-imprimir,
-      form,
-      .mensagem-flash {
-        display: none !important;
-      }
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.7);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
 
-      body * {
-        visibility: hidden;
-      }
+    .modal-conteudo {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 600px;
+      width: 90%;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      position: relative;
+    }
 
-      #area-impressao, #area-impressao * {
-        visibility: visible;
-      }
-
-      #area-impressao {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-      }
+    .fechar-modal {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -43,7 +49,7 @@
   <button class="botao-fechar-sessao" onclick="window.location.href='{{ url_for('logout') }}'" title="Sair">
     &times;
   </button>
-  
+
   <header>
     <div class="logo-central mb-3">
       <img src="{{ url_for('static', filename='imagens/logo.png') }}" alt="Logo_Play_Repertório" />
@@ -51,312 +57,342 @@
     </div>
   </header>
 
-  <div class="botoes-wrapper">
-    <a href="{{ url_for('escala') }}" class="botao-padrao"><i class="fa-solid fa-calendar-alt"></i> Ir para Escalas</a>
-    <a href="{{ url_for('gerenciar_usuarios') }}" class="botao-padrao"><i class="fa-solid fa-users"></i> Gerenciar Usuários</a>
-    <button id="btnAbrirSolicitacoes" class="botao-padrao">👥 Ver solicitações de cadastro</button>
-    <a href="{{ url_for('cultos') }}" class="botao-padrao">📖 Ver Cultos Agendados</a>
-    <button onclick="imprimirMusicas()" type="button" class="botao-padrao">🖨️ Imprimir Músicas</button>
-    <button id="btnAbrirMensagens" class="botao-padrao">💬 Mensagens</button>
-  </div>
-
-
+<div class="botoes-wrapper">
+  <a href="{{ url_for('escala') }}" class="botao-padrao"><i class="fa-solid fa-calendar-alt"></i> Ir para Escalas</a>
+  <a href="{{ url_for('gerenciar_usuarios') }}" class="botao-padrao"><i class="fa-solid fa-users"></i> Gerenciar Usuários</a>
+  <button id="btnAbrirSolicitacoes" class="botao-padrao">👥 Ver solicitações de cadastro</button>
+  <a href="{{ url_for('cultos') }}" class="botao-padrao">📖 Ver Cultos Agendados</a>
+  <button onclick="imprimirMusicas()" type="button" class="botao-padrao">🖨️ Imprimir Músicas</button>
+  <button id="btnAbrirMensagens" class="botao-padrao">💬 Mensagens</button>
+</div>
 
 <!-- Modal de Mensagens -->
 <div id="modalMensagens" class="modal-mensagens" style="display:none;">
-    <div class="modal-content">
-      <span class="close" id="fecharMensagens">&times;</span>
-      <h3>📩 Caixa de Entrada</h3>
-
-      <div id="listaMensagens">
-        <!-- Exemplo de mensagem -->
-        <div class="mensagem-item">
-          <span class="usuario">Emanuel:</span>
-          <span class="texto">Essa música já foi ensaiada com o grupo.</span>
-        </div>
-      </div>
-
-      <textarea id="novaMensagem" placeholder="Digite sua mensagem..."></textarea>
-      <button id="btnEnviarMensagem">✉️ Enviar</button>
-    </div>
-  </div>
-
-  <!-- Modal de Solicitações de Cadastro -->
-  <div id="modalSolicitacoes" class="modal-solicitacoes" style="display:none;">
-    <div class="modal-content">
-      <span class="close" id="fecharSolicitacoes">&times;</span>
-      <h3>Solicitações de Cadastro</h3>
-      <div id="listaSolicitacoes">
-        <p>🔄 Carregando solicitações...</p>
+  <div class="modal-content">
+    <span class="close" id="fecharMensagens">&times;</span>
+    <h3>📩 Caixa de Entrada</h3>
+    <div id="listaMensagens">
+      <!-- Exemplo de mensagem -->
+      <div class="mensagem-item">
+        <span class="usuario">Emanuel:</span>
+        <span class="texto">Essa música já foi ensaiada com o grupo.</span>
       </div>
     </div>
+    <textarea id="novaMensagem" placeholder="Digite sua mensagem..."></textarea>
+    <button id="btnEnviarMensagem">✉️ Enviar</button>
   </div>
+</div>
 
-  <!-- Modal de Calendário -->
-  <div id="modalCalendario" class="modal-calendario" style="display:none;">
-    <div class="modal-content">
-      <span class="close" id="fecharModal">&times;</span>
-      <h3>📅 Selecionar Data de Ensaio</h3>
-      <input type="date" id="inputDataEnsaio">
-      <button id="btnSalvarData">✅ Salvar</button>
+<!-- Modal de Solicitações de Cadastro -->
+<div id="modalSolicitacoes" class="modal-solicitacoes" style="display:none;">
+  <div class="modal-content">
+    <span class="close" id="fecharSolicitacoes">&times;</span>
+    <h3>Solicitações de Cadastro</h3>
+    <div id="listaSolicitacoes">
+      <p>🔄 Carregando solicitações...</p>
     </div>
   </div>
+</div>
 
-
+<!-- Modal de Calendário -->
+<div id="modalCalendario" class="modal-calendario" style="display:none;">
+  <div class="modal-content">
+    <span class="close" id="fecharModal">&times;</span>
+    <h3>📅 Selecionar Data de Ensaio</h3>
+    <input type="date" id="inputDataEnsaio">
+    <button id="btnSalvarData">✅ Salvar</button>
+  </div>
+</div>
 
 <div id="cardMusicas">
   {% if musicas %}
-      <form id="formMusicas">
-        <div class="tabela-container">
-         <table class="tabela">
-          <thead>
-            <tr>
-              <th>Título</th>
-              <th>Autor</th>
-              <th>Tom</th>
-              <th>Gênero</th>
-              <th>Ensaiada?</th>
-              {% if current_user.role in ["cantor", "admin"] %}
-                <th>Ação</th>
-                <th>Data do Ensaio</th>
+    <form id="formMusicas"></form>
+
+    <div class="tabela-container">
+      <table class="tabela">
+        <thead>
+          <tr>
+            <th>Título</th>
+            <th>Autor</th>
+            <th>Tom</th>
+            <th>Gênero</th>
+            <th>Ensaiada?</th>
+            {% if current_user.role in ["cantor", "admin"] %}
+              <th>Ação</th>
+              <th>Data do Ensaio</th>
+            {% endif %}
+            <th>Adicionada por</th>
+            <th>Vídeo</th>
+          </tr>
+        </thead>
+        <tbody id="tabelaMusicas">
+          {% for musica in musicas %}
+          <tr>
+            <td>{{ musica.titulo }}</td>
+            <td>{{ musica.autor }}</td>
+            <td>{{ musica.tom }}</td>
+            <td>{{ musica.genero }}</td>
+            <td>
+              <input type="checkbox" name="status_{{ musica.musica_id }}" {% if musica.ensaiada %}checked{% endif %}>
+            </td>
+            {% if current_user.role in ["cantor", "admin"] %}
+            <td>
+              <form action="{{ url_for('excluir_musica', musica_id=musica.musica_id) }}" method="POST">
+                <button type="submit" class="botao-excluir">❌ Excluir</button>
+              </form>
+            </td>
+            <td>
+              <button type="button" class="btnCalendario" data-id="{{ musica.musica_id }}">
+                📅 {{ musica.data_ensaio.strftime('%d/%m/%Y') if musica.data_ensaio else '' }}
+              </button>
+            </td>
+            {% endif %}
+            <td>{{ musica.usuario.nome if musica.usuario else "Desconhecido" }}</td>
+            <td>
+              {% if musica.link_youtube %}
+                🎬 Vídeo disponível
+              {% else %}
+                —
               {% endif %}
-              <th>Adicionada por</th>
-            </tr>
-          </thead>
-          <tbody id="tabelaMusicas">
-            {% for musica in musicas %}
-            <tr>
-              <td>{{ musica.titulo }}</td>
-              <td>{{ musica.autor }}</td>
-              <td>{{ musica.tom }}</td>
-              <td>{{ musica.genero }}</td>
-              <td>
-                <input type="checkbox" name="status_{{ musica.musica_id }}" {% if musica.ensaiada %}checked{% endif %}>
-              </td>
-              {% if current_user.role in ["cantor", "admin"] %}
-              <td>
-                <button type="submit"
-                        formaction="{{ url_for('excluir_musica', musica_id=musica.musica_id) }}"
-                        formmethod="POST"
-                        class="botao-excluir">
-            ❌ Excluir
-                </button>
-              </td>
-              <td>
-                <button type="button" class="btnCalendario" data-id="{{ musica.musica_id }}">
-            📅 {{ musica.data_ensaio.strftime('%d/%m/%Y') if musica.data_ensaio else '' }}
-                </button>
-              </td>
-              {% endif %}
-              <td>{{ musica.usuario.nome if musica.usuario else "Desconhecido" }}</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    </form>
-
-
-      <!-- Área de impressão -->
-      <div id="area-impressao" style="display: none;">
-        <h2>🎼 Músicas Ensaiadas</h2>
-        <table class="tabela">
-          <thead>
-            <tr>
-              <th>Título</th>
-              <th>Autor</th>
-              <th>Tom</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for musica in musicas if musica.ensaiada %}
-            <tr>
-              <td>{{ musica.titulo }}</td>
-              <td>{{ musica.autor }}</td>
-              <td>{{ musica.tom }}</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-
-        <h2 style="margin-top: 40px;">🎯 Músicas a Ensaiar</h2>
-        <table class="tabela">
-          <thead>
-            <tr>
-              <th>Título</th>
-              <th>Autor</th>
-              <th>Tom</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for musica in musicas if not musica.ensaiada %}
-            <tr>
-              <td>{{ musica.titulo }}</td>
-              <td>{{ musica.autor }}</td>
-              <td>{{ musica.tom }}</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    {% else %}
-      <p>📌 Nenhuma música cadastrada no momento.</p>
-    {% endif %}
-  </div>
-
-    <!-- ✅ Botão sempre visível -->
-    <div class="centraliza-botao-wrapper">
-      <button id="btnAbrirModalAdicionarMusica" class="botao-adicionar-musica" type="button">
-        ➕ Adicionar Nova Música
-      </button>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
 
-  <div class="duas-listas">
-    <!-- Bloco: Músicas Ensaiadas -->
-    <div class="lista-cards">
+    <div id="area-impressao" style="display: none;">
       <h2>🎼 Músicas Ensaiadas</h2>
-      {% for musica in musicas %}
-        {% if musica.ensaiada %}
-        <div class="card-musica ensaiada" data-id="{{ musica.musica_id }}">
-          <div class="card-header">
-            <i class="fa-solid fa-check-circle"></i>
-            <strong>{{ musica.titulo }}</strong>
-          </div>
-          <div class="card-body">
-            <p><strong>Autor:</strong> {{ musica.autor }}</p>
-            <p><strong>Tom:</strong> {{ musica.tom }}</p>
-          </div>
-        </div>
-        {% endif %}
-      {% endfor %}
-    </div>
+      {% set ensaiadas = musicas | selectattr("ensaiada") | list %}
+      {% if ensaiadas %}
+        <table class="tabela">
+          <thead>
+            <tr><th>Título</th><th>Autor</th><th>Tom</th></tr>
+          </thead>
+          <tbody>
+            {% for musica in ensaiadas %}
+            <tr>
+              <td>{{ musica.titulo }}</td>
+              <td>{{ musica.autor }}</td>
+              <td>{{ musica.tom }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p style="padding: 10px;">📭 Nenhuma música ensaiada.</p>
+      {% endif %}
 
-    <!-- Bloco: Músicas a Ensaiar -->
-    <div class="lista-cards">
-      <h2>🎯 Músicas a Ensaiar</h2>
-      {% for musica in musicas %}
-        {% if not musica.ensaiada %}
-        <div class="card-musica a-ensaiar" data-id="{{ musica.musica_id }}">
-          <div class="card-header">
-            <i class="fa-solid fa-music"></i>
-            <strong>{{ musica.titulo }}</strong>
-          </div>
-          <div class="card-body">
-            <p><strong>Autor:</strong> {{ musica.autor }}</p>
-            <p><strong>Tom:</strong> {{ musica.tom }}</p>
-          </div>
-        </div>
-        {% endif %}
-      {% endfor %}
+      <h2 style="margin-top: 40px;">🎯 Músicas a Ensaiar</h2>
+      {% set a_ensaiar = musicas | rejectattr("ensaiada") | list %}
+      {% if a_ensaiar %}
+        <table class="tabela">
+          <thead>
+            <tr><th>Título</th><th>Autor</th><th>Tom</th></tr>
+          </thead>
+          <tbody>
+            {% for musica in a_ensaiar %}
+            <tr>
+              <td>{{ musica.titulo }}</td>
+              <td>{{ musica.autor }}</td>
+              <td>{{ musica.tom }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p style="padding: 10px;">📭 Nenhuma música pendente de ensaio.</p>
+      {% endif %}
     </div>
+  {% else %}
+    <p>📌 Nenhuma música cadastrada no momento.</p>
+  {% endif %}
+</div>
+
+<div class="centraliza-botao-wrapper">
+  <button id="btnAbrirModalAdicionarMusica" class="botao-adicionar-musica" type="button">
+    ➕ Adicionar Nova Música
+  </button>
+</div>
+
+
+<div class="duas-listas">
+  <!-- Bloco: Músicas Ensaiadas -->
+  <div class="lista-cards">
+    <h2>🎼 Músicas Ensaiadas</h2>
+    {% for musica in musicas %}
+      {% if musica.ensaiada %}
+      <div class="card-musica ensaiada" data-id="{{ musica.musica_id }}">
+        <div class="card-header">
+          <i class="fa-solid fa-check-circle"></i>
+          <strong>{{ musica.titulo }}</strong>
+        </div>
+        <div class="card-body">
+          <p><strong>Autor:</strong> {{ musica.autor }}</p>
+          <p><strong>Tom:</strong> {{ musica.tom }}</p>
+          {% if musica.link_youtube %}
+            <a href="{{ musica.link_youtube }}" target="_blank" rel="noopener" class="botao-video">
+              🎬 Ver vídeo
+            </a>
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
+    {% endfor %}
   </div>
 
+  <!-- Bloco: Músicas a Ensaiar -->
+<div class="lista-cards">
+  <h2>🎯 Músicas a Ensaiar</h2>
+  {% for musica in musicas %}
+    {% if not musica.ensaiada %}
+    <div class="card-musica a-ensaiar" data-id="{{ musica.musica_id }}">
+      <div class="card-header">
+        <i class="fa-solid fa-music"></i>
+        <strong>{{ musica.titulo }}</strong>
+      </div>
+      <div class="card-body">
+        <p><strong>Autor:</strong> {{ musica.autor }}</p>
+        <p><strong>Tom:</strong> {{ musica.tom }}</p>
+        {% if musica.link_youtube %}
+          <a href="{{ musica.link_youtube }}" target="_blank" rel="noopener">
+            <button>🎬 Ver vídeo</button>
+          </a>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+  {% endfor %}
+</div>
 
-      
-  
-  <script>
-    let musicaSelecionada = null;
 
-    // 📩 Mensagens
-    document.getElementById("btnAbrirMensagens").addEventListener("click", () => {
-      document.getElementById("modalMensagens").style.display = "block";
-      carregarMensagens();
+<!-- Modal de Vídeo do YouTube -->
+<div id="modal-video" class="modal" style="display: none;">
+  <div class="modal-conteudo">
+    <span class="fechar-modal">&times;</span>
+    <iframe
+      id="iframe-video"
+      width="100%"
+      height="315"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+      sandbox="allow-scripts allow-same-origin">
+   </iframe>
+  </div>
+</div>
+
+<!-- Script para abrir e fechar o modal -->
+
+
+
+<!-- Scripts de mensagens -->
+<script>
+  document.getElementById("btnAbrirMensagens").addEventListener("click", () => {
+    document.getElementById("modalMensagens").style.display = "block";
+    carregarMensagens();
+  });
+
+  document.getElementById("fecharMensagens").addEventListener("click", () => {
+    document.getElementById("modalMensagens").style.display = "none";
+  });
+
+  document.getElementById("btnEnviarMensagem").addEventListener("click", () => {
+    const conteudo = document.getElementById("novaMensagem").value.trim();
+    if (!conteudo) return alert("⚠️ Digite algo para enviar.");
+
+    fetch("/enviar_mensagem", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ conteudo })
+    })
+    .then(res => {
+      if (res.ok) {
+        document.getElementById("novaMensagem").value = "";
+        carregarMensagens();
+        alert("✅ Mensagem enviada!");
+      } else {
+        alert("❌ Erro ao enviar.");
+      }
     });
+  });
 
-    document.getElementById("fecharMensagens").addEventListener("click", () => {
-      document.getElementById("modalMensagens").style.display = "none";
-    });
+  function carregarMensagens() {
+    fetch("/caixa_entrada")
+      .then(res => res.json())
+      .then(mensagens => {
+        const lista = document.getElementById("listaMensagens");
+        lista.innerHTML = mensagens.length
+          ? mensagens.map(m => `
+            <div class="mensagem" id="mensagem-${m.id}">
+              <strong>${m.autor}</strong>: <span>${m.conteudo}</span>
+              <small>${m.data}</small>
+              ${m.autor == "{{ current_user.username }}" ? `<button class="btnExcluir" data-id="${m.id}">❌</button>` : ""}
+            </div>`).join('')
+          : "<p style='text-align:center;'>📭 Nenhuma mensagem recebida.</p>";
 
-    document.getElementById("btnEnviarMensagem").addEventListener("click", () => {
-      const conteudo = document.getElementById("novaMensagem").value.trim();
-      if (!conteudo) return alert("⚠️ Digite algo para enviar.");
-
-      fetch("/enviar_mensagem", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ conteudo })
-      })
-      .then(res => {
-        if (res.ok) {
-          document.getElementById("novaMensagem").value = "";
-          carregarMensagens();
-          alert("✅ Mensagem enviada!");
-        } else {
-          alert("❌ Erro ao enviar.");
-        }
-      });
-    });
-
-    function carregarMensagens() {
-      fetch("/caixa_entrada")
-        .then(res => res.json())
-        .then(mensagens => {
-          const lista = document.getElementById("listaMensagens");
-          lista.innerHTML = mensagens.length
-            ? mensagens.map(m => `
-              <div class="mensagem ${m.autor == "{{ current_user.username }}" ? "usuario-atual" : "outros-usuario"}" id="mensagem-${m.id}">
-                <strong >${m.autor}</strong>: <span>${m.conteudo}</span>
-                <small>${m.data}</small>
-                ${m.autor == "{{ current_user.username }}" ? `<button class="btnExcluir" data-id="${m.id}">❌</button>` : ""}
-              </div>`).join('')
-            : "<p style='text-align:center;'>📭 Nenhuma mensagem recebida.</p>";
-
-          document.querySelectorAll(".btnExcluir").forEach(btn => {
-            btn.addEventListener("click", e => {
-              const id = e.target.dataset.id;
-              if (confirm("Excluir esta mensagem?")) {
-                fetch(`/excluir_mensagem/${id}`, { method: "DELETE" })
-                  .then(res => {
-                    if (res.ok) {
-                      document.getElementById(`mensagem-${id}`)?.remove();
-                      alert("✅ Mensagem excluída!");
-                    }
-                  });
-              }
-            });
+        document.querySelectorAll(".btnExcluir").forEach(btn => {
+          btn.addEventListener("click", e => {
+            const id = e.target.dataset.id;
+            if (confirm("Excluir esta mensagem?")) {
+              fetch(`/excluir_mensagem/${id}`, { method: "DELETE" })
+                .then(res => {
+                  if (res.ok) {
+                    document.getElementById(`mensagem-${id}`)?.remove();
+                    alert("✅ Mensagem excluída!");
+                  }
+                });
+            }
           });
         });
+      });
+  }
+</script>
+
+<!-- Scripts de calendário -->
+<script>
+  let musicaSelecionada = null;
+
+  document.querySelectorAll(".btnCalendario").forEach(btn => {
+    btn.addEventListener("click", () => {
+      musicaSelecionada = btn.dataset.id;
+      document.getElementById("modalCalendario").style.display = "flex";
+      document.getElementById("inputDataEnsaio").focus();
+    });
+  });
+
+  document.getElementById("fecharModal").addEventListener("click", () => {
+    document.getElementById("modalCalendario").style.display = "none";
+  });
+
+  document.getElementById("btnSalvarData").addEventListener("click", () => {
+    const dataSelecionada = document.getElementById("inputDataEnsaio").value;
+    if (!dataSelecionada || !musicaSelecionada) {
+      alert("⚠️ Selecione uma data válida!");
+      return;
     }
 
-    // 📅 Modal Calendário
-    document.querySelectorAll(".btnCalendario").forEach(btn => {
-      btn.addEventListener("click", () => {
-        musicaSelecionada = btn.dataset.id;
-        document.getElementById("modalCalendario").style.display = "flex";
-        document.getElementById("inputDataEnsaio").focus();
-      });
-    });
-
-    document.getElementById("fecharModal").addEventListener("click", () => {
-      document.getElementById("modalCalendario").style.display = "none";
-    });
-
-    document.getElementById("btnSalvarData").addEventListener("click", () => {
-      const dataSelecionada = document.getElementById("inputDataEnsaio").value;
-      if (!dataSelecionada || !musicaSelecionada) {
-        alert("⚠️ Selecione uma data válida!");
-        return;
+    fetch(`/salvar_data_ensaio/${musicaSelecionada}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ data_ensaio: dataSelecionada })
+    })
+    .then(res => res.json())
+    .then(() => {
+      const botao = document.querySelector(`.btnCalendario[data-id='${musicaSelecionada}']`);
+      if (botao) {
+        const [ano, mes, dia] = dataSelecionada.split("-");
+        botao.textContent = `📅 ${dia}/${mes}/${ano}`;
       }
+      document.getElementById("modalCalendario").style.display = "none";
+      alert("✅ Data salva com sucesso!");
+    })
+    .catch(() => alert("❌ Erro ao salvar a data."));
+  });
+</script>
 
-      fetch(`/salvar_data_ensaio/${musicaSelecionada}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ data_ensaio: dataSelecionada })
-      })
-      .then(res => res.json())
-      .then(() => {
-        const botao = document.querySelector(`.btnCalendario[data-id='${musicaSelecionada}']`);
-        if (botao) {
-          const [ano, mes, dia] = dataSelecionada.split("-");
-          botao.textContent = `📅 ${dia}/${mes}/${ano}`;
-        }
-        document.getElementById("modalCalendario").style.display = "none";
-        alert("✅ Data salva com sucesso!");
-      })
-      .catch(() => alert("❌ Erro ao salvar a data."));
-    });
-
-    // 🔄 Atualizar status ensaiadas
+<!-- Scripts de status -->
+<script>
   document.querySelectorAll('input[type="checkbox"][name^="status_"]').forEach(checkbox => {
     checkbox.addEventListener("change", () => {
       const musicaId = checkbox.name.split("_")[1];
@@ -369,253 +405,214 @@
       })
       .then(res => res.json())
       .then(data => {
-        // Atualiza botão 📅 caso necessário
         const botao = document.querySelector(`.btnCalendario[data-id='${musicaId}']`);
         if (botao) botao.textContent = `📅 ${data.data_ensaio || ""}`;
-
-        // Opcional: atualizar listas “Ensaiadas” e “A Ensaiar” se estiverem na tela
-        location.reload(); // ou uma função que remonte só as listas sem reload
+        atualizarBlocosMusicas(musicaId, status);
       })
       .catch(() => alert("❌ Erro ao atualizar status."));
     });
   });
 
+  function atualizarBlocosMusicas(musicaId, status) {
+    const card = document.querySelector(`.card-musica[data-id='${musicaId}']`);
+    if (!card) return;
 
+    const blocoEnsaiadas = document.querySelector(".duas-listas .lista-cards:nth-child(1)");
+    const blocoAEnsaiar = document.querySelector(".duas-listas .lista-cards:nth-child(2)");
 
-    // Fechar modais clicando fora
-    window.addEventListener("click", e => {
-      if (e.target.classList.contains("modal-mensagens")) {
-        document.getElementById("modalMensagens").style.display = "none";
-      }
-      if (e.target.classList.contains("modal-calendario")) {
-        document.getElementById("modalCalendario").style.display = "none";
-      }
-    });
+    card.remove();
 
-    // Proteção ao voltar com F5/cache
-    window.onpageshow = function (event) {
-      if (event.persisted || performance.navigation.type === 2) {
-        history.replaceState(null, "", "{{ url_for('logout') }}");
-        window.location.href = "{{ url_for('logout') }}";
-      }
-    };
-  </script>
+    const novoCard = document.createElement("div");
+    novoCard.className = `card-musica ${status ? "ensaiada" : "a-ensaiar"}`;
+    novoCard.setAttribute("data-id", musicaId);
+    novoCard.innerHTML = card.innerHTML;
 
-
-  <script>
-    function imprimirCard(botao) {
-      const card = botao.closest('.card-musica');
-      const janela = window.open('', '', 'width=800,height=600');
-      janela.document.write('<html><head><title>Imprimir Card</title></head><body>');
-      janela.document.write(card.innerHTML);
-      janela.document.write('</body></html>');
-      janela.document.close();
-      janela.print();
+    if (status) {
+      blocoEnsaiadas.appendChild(novoCard);
+    } else {
+      blocoAEnsaiar.appendChild(novoCard);
+    }
   }
-  </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</script>
 
-  <script>
-    function imprimirMusicas() {
-      const area = document.getElementById('area-impressao');
-      if (!area) {
-        alert("Não há músicas disponíveis para impressão.");
-        return;
-      }
-
-      const estilo = `
-        <style>
-          body {
-            font-family: Arial, sans-serif;
-            padding: 30px;
-            background-color: #fff;
-            color: #222;
-          }
-          h1 {
-            text-align: center;
-            font-size: 24px;
-            margin-bottom: 20px;
-          }
-          h2 {
-            font-size: 20px;
-            margin-top: 30px;
-            color: #2c3e50;
-          }
-          table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-          }
-          th, td {
-            padding: 10px;
-            border: 1px solid #ccc;
-            text-align: left;
-          }
-          th {
-            background-color: #f0f0f0;
-          }
-          tr:nth-child(even) {
-            background-color: #f9f9f9;
-          }
-        </style>
-      `;
-
-      const janela = window.open('', '', 'width=800,height=600');
-      janela.document.write('<html><head><title>Repertório de Músicas</title>' + estilo + '</head><body>');
-      janela.document.write('<h1>Repertório de Músicas</h1>');
-      janela.document.write(area.innerHTML);
-      janela.document.write('</body></html>');
-      janela.document.close();
-      janela.focus();
-      janela.print();
+<!-- Scripts de impressão -->
+<script>
+  function imprimirMusicas() {
+    const area = document.getElementById('area-impressao');
+    if (!area) {
+      alert("Não há músicas disponíveis para impressão.");
+      return;
     }
-  </script>
+
+    const estilo = `
+      <style>
+        body {
+          font-family: Arial, sans-serif;
+          padding: 30px;
+          background-color: #fff;
+          color: #222;
+        }
+        h1 {
+          text-align: center;
+          font-size: 24px;
+          margin-bottom: 20px;
+        }
+        h2 {
+          font-size: 20px;
+          margin-top: 30px;
+          color: #2c3e50;
+        }
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          margin-top: 10px;
+        }
+        th, td {
+          padding: 10px;
+          border: 1px solid #ccc;
+          text-align: left;
+        }
+        th {
+          background-color: #f0f0f0;
+        }
+        tr:nth-child(even) {
+          background-color: #f9f9f9;
+        }
+      </style>
+    `;
+
+    const janela = window.open('', '', 'width=800,height=600');
+    janela.document.write('<html><head><title>Repertório de Músicas</title>' + estilo + '</head><body>');
+    janela.document.write('<h1>Repertório de Músicas</h1>');
+    janela.document.write(area.innerHTML);
+    janela.document.write('</body></html>');
+    janela.document.close();
+    janela.focus();
+    janela.print();
+  }
+</script>
 
 
-      <!-- Modal de Adicionar Música -->
-    <div id="modalAdicionarMusica" class="modal-adicionar" style="display: none;">
-      <div class="modal-content">
-        <button id="fecharModalAdicionarMusica" class="fechar-modal" aria-label="Fechar">
-          <i class="fa-solid fa-xmark"></i>
+<!-- Modal de Adicionar Música -->
+<div id="modalAdicionarMusica" class="modal-adicionar" style="display: none;">
+  <div class="modal-content">
+    <button id="fecharModalAdicionarMusica" class="fechar-modal" aria-label="Fechar">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <div class="container-adicionar">
+      <h2>Adicionar Nova Música</h2>
+      <form action="{{ url_for('musicas') }}" method="POST" class="formulario">
+        <label>Título:</label>
+        <input type="text" name="titulo" required />
+        <label>Autor:</label>
+        <input type="text" name="autor" required />
+        <label>Gênero:</label>
+        <input type="text" name="genero" required />
+        <label for="tom">Tom da Música:</label>
+        <select id="tom" name="tom" required>
+          <option value="" disabled selected>Selecione um tom</option>
+          <option value="C">Dó (C)</option>
+          <option value="C#">Dó# (C#)</option>
+          <option value="D">Ré (D)</option>
+          <option value="D#">Ré# (D#)</option>
+          <option value="E">Mi (E)</option>
+          <option value="F">Fá (F)</option>
+          <option value="F#">Fá# (F#)</option>
+          <option value="G">Sol (G)</option>
+          <option value="G#">Sol# (G#)</option>
+          <option value="A">Lá (A)</option>
+          <option value="A#">Lá# (A#)</option>
+          <option value="B">Si (B)</option>
+        </select>
+        <label><input type="checkbox" name="ensaiada" /> Ensaiada</label>
+        <label for="link_youtube">Link do YouTube:</label>
+        <input type="url" id="link_youtube" name="link_youtube" placeholder="https://www.youtube.com/watch?v=..." pattern="https://.*" />
+        <button type="submit" class="botao-adicionar">
+          <i class="fa-solid fa-plus"></i> Adicionar Música
         </button>
-        <div class="container-adicionar">
-          <h2>Adicionar Nova Música</h2>
-          <form action="{{ url_for('musicas') }}" method="POST" class="formulario">
-            <label>Título:</label>
-            <input type="text" name="titulo" required />
-            <label>Autor:</label>
-            <input type="text" name="autor" required />
-            <label>Gênero:</label>
-            <input type="text" name="genero" required />
-            <label for="tom">Tom da Música:</label>
-            <select id="tom" name="tom" required>
-              <option value="" disabled selected>Selecione um tom</option>
-              <option value="C">Dó (C)</option>
-              <option value="C#">Dó# (C#)</option>
-              <option value="D">Ré (D)</option>
-              <option value="D#">Ré# (D#)</option>
-              <option value="E">Mi (E)</option>
-              <option value="F">Fá (F)</option>
-              <option value="F#">Fá# (F#)</option>
-              <option value="G">Sol (G)</option>
-              <option value="G#">Sol# (G#)</option>
-              <option value="A">Lá (A)</option>
-              <option value="A#">Lá# (A#)</option>
-              <option value="B">Si (B)</option>
-            </select>
-            <label><input type="checkbox" name="ensaiada" /> Ensaiada</label>
-            <button type="submit" class="botao-adicionar">
-              <i class="fa-solid fa-plus"></i> Adicionar Música
-            </button>
-          </form>
-        </div>
-      </div>
+      </form>
     </div>
+  </div>
+</div>
 
+<!-- Script para abrir/fechar modal de adicionar música -->
+<script>
+  document.getElementById("btnAbrirModalAdicionarMusica").addEventListener("click", () => {
+    document.getElementById("modalAdicionarMusica").style.display = "flex";
+  });
 
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const abrirBtn = document.getElementById("btnAbrirModalAdicionarMusica");
-        const modal = document.getElementById("modalAdicionarMusica");
-        const fecharBtn = document.getElementById("fecharModalAdicionarMusica");
+  document.getElementById("fecharModalAdicionarMusica").addEventListener("click", () => {
+    document.getElementById("modalAdicionarMusica").style.display = "none";
+  });
 
-        if (abrirBtn && modal && fecharBtn) {
-          abrirBtn.addEventListener("click", () => {
-            modal.style.display = "flex";
-          });
-
-          fecharBtn.addEventListener("click", () => {
-            modal.style.display = "none";
-          });
-
-          window.addEventListener("click", e => {
-            if (e.target === modal) {
-              modal.style.display = "none";
-            }
-          });
-        } else {
-          console.warn("❌ Elementos do modal não encontrados.");
-        }
-      });
-
-    function atualizarBlocosMusicas(musicaId, status) {
-      const card = document.querySelector(`.card-musica[data-id='${musicaId}']`);
-      if (!card) return;
-
-      const blocoEnsaiadas = document.querySelector(".duas-listas .lista-cards:nth-child(1)");
-      const blocoAEnsaiar = document.querySelector(".duas-listas .lista-cards:nth-child(2)");
-
-      // Remove o card atual
-      card.remove();
-
-      // Recria o card com a nova classe
-      const novoCard = document.createElement("div");
-      novoCard.className = `card-musica ${status ? "ensaiada" : "a-ensaiar"}`;
-      novoCard.setAttribute("data-id", musicaId);
-      novoCard.innerHTML = card.innerHTML;
-
-      // Insere no bloco correto
-      if (status) {
-        blocoEnsaiadas.appendChild(novoCard);
-      } else {
-        blocoAEnsaiar.appendChild(novoCard);
-      }
+  window.addEventListener("click", (e) => {
+    if (e.target === document.getElementById("modalAdicionarMusica")) {
+      document.getElementById("modalAdicionarMusica").style.display = "none";
     }
-    </script>
+  });
+</script>
 
-    <script>
-        document.getElementById("btnAbrirSolicitacoes")?.addEventListener("click", () => {
-          const modal = document.getElementById("modalSolicitacoes");
-          const lista = document.getElementById("listaSolicitacoes");
-          modal.style.display = "flex";
-          lista.innerHTML = "<p>🔄 Carregando solicitações...</p>";
+<script>
+  document.getElementById("btnAbrirSolicitacoes").addEventListener("click", () => {
+    document.getElementById("modalSolicitacoes").style.display = "block";
+    carregarSolicitacoes();
+  });
 
-          fetch("/listar_solicitacoes")
-            .then(res => res.json())
-            .then(listaUsuarios => {
-              if (!listaUsuarios.length) {
-                lista.innerHTML = "<p>📭 Nenhuma solicitação pendente.</p>";
-                return;
-              }
+  document.getElementById("fecharSolicitacoes").addEventListener("click", () => {
+    document.getElementById("modalSolicitacoes").style.display = "none";
+  });
 
-              lista.innerHTML = "";
-              listaUsuarios.forEach(u => {
-                lista.innerHTML += `
-                  <div class="card p-3 mb-2" style="border: 1px solid #ccc; border-radius: 8px; padding: 10px;">
-                    <strong>${u.nome} ${u.sobrenome}</strong> (${u.username})<br>
-                    <small>Telefone: ${u.telefone}</small><br>
-                    <button onclick="aprovar(${u.id})" class="btn btn-success mt-2">✅ Aprovar</button>
-                    <button onclick="recusar(${u.id})" class="btn btn-danger mt-2">❌ Recusar</button>
-                  </div>
-                `;
-              });
-            });
-        });
+  function carregarSolicitacoes() {
+    const lista = document.getElementById("listaSolicitacoes");
+    lista.innerHTML = "<p>🔄 Carregando solicitações...</p>";
 
-        document.getElementById("fecharSolicitacoes").addEventListener("click", () => {
-          document.getElementById("modalSolicitacoes").style.display = "none";
-        });
-
-        function aprovar(id) {
-          fetch(`/aprovar_usuario/${id}`, { method: "POST" })
-            .then(res => res.json())
-            .then(() => {
-              alert("✅ Solicitação aprovada!");
-              document.getElementById("btnAbrirSolicitacoes").click(); // recarrega
-            });
+    fetch("/listar_solicitacoes")
+      .then(res => res.json())
+      .then(data => {
+        if (!Array.isArray(data) || data.length === 0) {
+          lista.innerHTML = "<p>✅ Nenhuma solicitação pendente.</p>";
+          return;
         }
 
-        function recusar(id) {
-          if (!confirm("Tem certeza que deseja recusar esta solicitação?")) return;
-          fetch(`/recusar_usuario/${id}`, { method: "POST" })
-            .then(res => res.json())
-            .then(() => {
-              alert("❌ Solicitação recusada.");
-              document.getElementById("btnAbrirSolicitacoes").click(); // recarrega
-            });
-        }
-    </script>
+        lista.innerHTML = data.map(usuario => `
+          <div class="solicitacao-item" style="margin-bottom: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+            <p><strong>${usuario.nome} ${usuario.sobrenome}</strong> (${usuario.username})</p>
+            <p>📞 ${usuario.telefone}</p>
+            <div style="display: flex; gap: 10px;">
+              <button onclick="aprovarUsuario(${usuario.id})">✅ Aprovar</button>
+              <button onclick="recusarUsuario(${usuario.id})">🗑️ Recusar</button>
+            </div>
+          </div>
+        `).join('');
+      })
+      .catch(() => {
+        lista.innerHTML = "<p style='color:red;'>❌ Erro ao carregar solicitações.</p>";
+      });
+  }
 
-    
+  function aprovarUsuario(id) {
+    fetch(`/aprovar_usuario/${id}`, { method: "POST" })
+      .then(res => res.json())
+      .then(() => {
+        alert("✅ Usuário aprovado!");
+        carregarSolicitacoes();
+      })
+      .catch(() => alert("❌ Erro ao aprovar usuário."));
+  }
+
+  function recusarUsuario(id) {
+    fetch(`/recusar_usuario/${id}`, { method: "POST" })
+      .then(res => res.json())
+      .then(() => {
+        alert("🗑️ Usuário recusado.");
+        carregarSolicitacoes();
+      })
+      .catch(() => alert("❌ Erro ao recusar usuário."));
+  }
+</script>
+
+
+
 </body>
 </html>
+

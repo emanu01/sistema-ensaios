@@ -54,8 +54,9 @@ class Music(db.Model):
     tom = db.Column(db.String(10), nullable=False)
     usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'))
     ensaiada = db.Column(db.Boolean, default=False)
-    data_ensaio = db.Column(db.DateTime) 
-    
+    data_ensaio = db.Column(db.DateTime)
+    link_youtube = db.Column(db.String(255), nullable=True)
+        
     usuario = db.relationship('Usuario', backref='musicas')
 
     
@@ -200,12 +201,12 @@ def register():
 def is_moderador():
     return current_user.is_authenticated and current_user.role in ["admin", "moderador"]
 
-# 🔹 Rota de músicas
+
 @app.route('/musicas', methods=['GET','POST'])
 @login_required
 def musicas():
     if request.method == 'POST':
-        if current_user.role not in ["cantor", "admin"]:  # 🔹 Agora administradores também podem adicionar músicas!
+        if current_user.role not in ["cantor", "admin"]:
             flash("🚫 Apenas cantores e administradores podem adicionar músicas!", "danger")
             return redirect(url_for('musicas'))
 
@@ -213,19 +214,21 @@ def musicas():
         autor = request.form.get('autor')
         genero = request.form.get('genero')
         tom = request.form.get('tom')
+        link_youtube = request.form.get('link_youtube')  # ✅ sem conversão
 
         nova_musica = Music(
             titulo=titulo,
             autor=autor,
             genero=genero,
             tom=tom,
-            usuario_id=current_user.id  # 🔹 Vinculamos ao cantor ou administrador que adicionou
+            usuario_id=current_user.id,
+            link_youtube=link_youtube
         )
         db.session.add(nova_musica)
         db.session.commit()
 
         flash("✅ Música adicionada com sucesso!", "success")
-    
+
     musicas_lista = Music.query.all()
     return render_template('musicas.html', musicas=musicas_lista)
 
@@ -467,6 +470,7 @@ def obter_musicas():
             "cantor": nome_cantor,
             "ensaiada": musica.ensaiada,
             "data_ensaio": musica.data_ensaio.strftime('%d/%m/%Y') if musica.data_ensaio else "Sem data definida",
+            "link_youtube": musica.link_youtube  # ✅ Adicionado aqui!
         })
 
     return jsonify({"musicas": musicas_json})
@@ -898,6 +902,7 @@ def recusar_usuario(user_id):
     usuario.status = "recusado"
     db.session.commit()
     return jsonify({"status": "recusado"})
+
 
 
 

@@ -100,6 +100,7 @@
           <th>Cantor</th>
           <th>Status</th>
           <th>Data de Ensaio</th>
+          <th>Vídeo</th>
         </tr>
       </thead>
       <tbody id="tabelaMusicas"></tbody>
@@ -471,7 +472,14 @@ document.addEventListener("DOMContentLoaded", function () {
               <td>${m.cantor}</td>
               <td>${m.ensaiada ? "Ensaiada" : "Não ensaiada"}</td>
               <td>${m.data_ensaio}</td>
-            </tr>`).join("");
+              <td>
+                ${m.link_youtube ? `
+                  <a href="${m.link_youtube}" target="_blank" rel="noopener" class="botao-video">
+                    🎬 Ver vídeo
+                  </a>` : `<span style="color: #999;">Sem link</span>`}
+              </td>
+            </tr>
+          `).join("");
         });
     }
   });
